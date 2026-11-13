@@ -1,177 +1,400 @@
-if not game:IsLoaded()then game.Loaded:Wait()end if(getgenv()).StopFarm then pcall((getgenv()).StopFarm)end local m=game:GetService("Players")local x=game:GetService("CoreGui")local D=game:GetService("UserInputService")local a=game:GetService("HttpService")local X=game:GetService("ReplicatedStorage")local y=game:GetService("RunService")local u=game:GetService("GuiService")local i=game:GetService("ProximityPromptService")local K=game:GetService("PathfindingService")local p=game:GetService("VirtualInputManager")local S=m.LocalPlayer local s=S:WaitForChild("PlayerGui")local O,C="Mushrooming","Mushrooming"local J=O..("/"..(C..".json"))if isfolder and not isfolder(O)then pcall(makefolder,O)end local Q={}pcall(function()if isfile and(readfile and isfile(J))then local m=a:JSONDecode(readfile(J))if type(m)=="table"then Q=m end end end)local function q()pcall(function()if writefile then writefile(J,a:JSONEncode(Q))end end)end local H="autofarm_log.txt"pcall(writefile,H,"=== Mushrooming v5 log | "..(os.date("%Y-%m-%d %H:%M:%S").." ===\n"))local function v(m)pcall(appendfile,H,string.format("[%s] %s\n",os.date("%H:%M:%S"),m))print("[Mushrooming] "..m)end local I=Color3.fromRGB(70,255,100)
-local z=Color3.fromRGB(240,240,240)
-local c=Color3.fromRGB(12,12,14)
-local G,g,Z=320,460,36
-local T=0.92
-local L={State={};setters={}}
-local U=true
-local b={}
-local function t(m)b[#b+1]=m return m end
-local function k(m,x)
-    local D=Instance.new("UICorner")
-    D.CornerRadius=UDim.new(0,x or 6)
-    D.Parent=m
+if not game:IsLoaded()then game.Loaded:Wait()end if(getgenv()).StopFarm then pcall((getgenv()).StopFarm)end local m=game:GetService("Players")local x=game:GetService("CoreGui")local D=game:GetService("UserInputService")local a=game:GetService("HttpService")local X=game:GetService("ReplicatedStorage")local y=game:GetService("RunService")local u=game:GetService("GuiService")local i=game:GetService("ProximityPromptService")local K=game:GetService("PathfindingService")local p=game:GetService("VirtualInputManager")local S=m.LocalPlayer local s=S:WaitForChild("PlayerGui")local O,C="Mushrooming","Mushrooming"local J=O..("/"..(C..".json"))if isfolder and not isfolder(O)then pcall(makefolder,O)end local Q={}pcall(function()if isfile and(readfile and isfile(J))then local m=a:JSONDecode(readfile(J))if type(m)=="table"then Q=m end end end)local function q()pcall(function()if writefile then writefile(J,a:JSONEncode(Q))end end)end local H="autofarm_log.txt"pcall(writefile,H,"=== Mushrooming v5 log | "..(os.date("%Y-%m-%d %H:%M:%S").." ===\n"))local function v(m)pcall(appendfile,H,string.format("[%s] %s\n",os.date("%H:%M:%S"),m))print("[Mushrooming] "..m)end 
+local I = Color3.fromRGB(80, 255, 120)          -- accent green
+local z = Color3.fromRGB(235, 235, 240)         -- text
+local c = Color3.fromRGB(16, 16, 20)            -- main bg
+local c2 = Color3.fromRGB(28, 28, 34)           -- card bg
+local c3 = Color3.fromRGB(40, 40, 48)           -- button off
+local G, g, Z = 300, 420, 38                    -- width, height, header
+local T = 1                                     -- no scale down
+local L = {State = {}, setters = {}}
+local U = true
+local b = {}
+local function t(m) b[#b+1] = m return m end
+local function k(m, r)
+    local d = Instance.new("UICorner")
+    d.CornerRadius = UDim.new(0, r or 8)
+    d.Parent = m
 end
-local function B(m,x)
-    local D=Instance.new("UIPadding")
-    D.PaddingTop,D.PaddingBottom=UDim.new(0,x),UDim.new(0,x)
-    D.PaddingLeft,D.PaddingRight=UDim.new(0,x),UDim.new(0,x)
-    D.Parent=m
-end local function l(m)return((((tostring(m)):gsub("&","&amp;")):gsub("<","&lt;")):gsub(">","&gt;"))end local function j(m)return m.UserInputType==Enum.UserInputType.MouseButton1 or m.UserInputType==Enum.UserInputType.Touch end local P=Instance.new("ScreenGui")P.Name="Mushrooming"P.ResetOnSpawn=false P.IgnoreGuiInset=true P.DisplayOrder=999 P.ZIndexBehavior=Enum.ZIndexBehavior.Sibling if not pcall(function()P.Parent=(gethui and gethui())or x end)then P.Parent=s end L.gui=P local w=Instance.new("Frame")
-w.Name="Main"
-w.Size=UDim2.fromOffset(G,g)
-w.Position=UDim2.new(1,-((G*T+16)),0,48)
-w.BackgroundColor3=c
-w.BackgroundTransparency=0.18
-w.BorderSizePixel=0
-w.ClipsDescendants=true
-k(w,10)
-w.Parent=P
-local o=Instance.new("UIScale")
-o.Scale=T
-o.Parent=w
-local E=Instance.new("Frame")
-E.Size=UDim2.new(1,0,0,Z)
-E.BackgroundColor3=Color3.fromRGB(18,18,20)
-E.BorderSizePixel=0
-k(E,10)
-E.Parent=w
-local R=Instance.new("Frame")
-R.Size=UDim2.new(1,0,0,10)
-R.Position=UDim2.new(0,0,1,-10)
-R.BackgroundColor3=Color3.fromRGB(18,18,20)
-R.BorderSizePixel=0
-R.Parent=E
-local N=Instance.new("TextLabel")
-N.Size=UDim2.new(1,-70,0,22)
-N.Position=UDim2.new(0,10,0,3)
-N.BackgroundTransparency=1
-N.Font=Enum.Font.GothamBold
-N.TextSize=15
-N.TextColor3=I
-N.TextXAlignment=Enum.TextXAlignment.Left
-N.Text="Mushrooming"
-N.Parent=E
-local n=Instance.new("TextLabel")
-n.Size=UDim2.new(1,-70,0,11)
-n.Position=UDim2.new(0,10,0,22)
-n.BackgroundTransparency=1
-n.Font=Enum.Font.Gotham
-n.TextSize=10
-n.TextColor3=Color3.fromRGB(130,130,135)
-n.TextXAlignment=Enum.TextXAlignment.Left
-n.Text="by YourBae • compact"
-n.Parent=E
-local r=Instance.new("TextButton")
-r.Size=UDim2.new(0,22,0,18)
-r.Position=UDim2.new(1,-52,0,9)
-r.BackgroundColor3=I
-r.BorderSizePixel=0
-r.Font=Enum.Font.GothamBold
-r.TextSize=14
-r.TextColor3=c
-r.Text="_"
-k(r,5)
-r.Parent=E
-local d=Instance.new("TextButton")
-d.Size=UDim2.new(0,22,0,18)
-d.Position=UDim2.new(1,-26,0,9)
-d.BackgroundColor3=Color3.fromRGB(255,70,70)
-d.BorderSizePixel=0
-d.Font=Enum.Font.GothamBold
-d.TextSize=12
-d.TextColor3=Color3.new(1,1,1)
-d.Text="✕"
-k(d,5)
-d.Parent=E local M=Instance.new("ScrollingFrame")
-M.Position=UDim2.new(0,0,0,Z)
-M.Size=UDim2.new(1,0,1,-Z)
-M.BackgroundTransparency=1
-M.BorderSizePixel=0
-M.ScrollBarThickness=3
-M.ScrollBarImageColor3=Color3.fromRGB(80,80,85)
-M.ScrollingDirection=Enum.ScrollingDirection.Y
-M.CanvasSize=UDim2.new()
-M.AutomaticCanvasSize=Enum.AutomaticSize.Y
-M.Parent=w
-B(M,6)
-local h=Instance.new("UIListLayout")
-h.Padding=UDim.new(0,5)
-h.SortOrder=Enum.SortOrder.LayoutOrder
-h.Parent=M local A=0 local function V()A=A+1 return A end function L.paragraph(m,x)
-    local D=Instance.new("TextLabel")
-    D.Size=UDim2.new(1,0,0,0)
-    D.AutomaticSize=Enum.AutomaticSize.Y
-    D.BackgroundColor3=Color3.fromRGB(22,22,26)
-    D.BackgroundTransparency=0.25
-    D.BorderSizePixel=0
-    D.Font=Enum.Font.GothamMedium
-    D.TextSize=11
-    D.TextColor3=z
-    D.TextXAlignment=Enum.TextXAlignment.Left
-    D.TextYAlignment=Enum.TextYAlignment.Top
-    D.TextWrapped=true
-    D.RichText=true
-    D.LayoutOrder=V()
-    B(D,7)
-    k(D,7)
-    D.Parent=M
-    local a={}
-    function a.Set(m,x)
-        local a=x.Title or""
-        D.Text="<font color=\"#46FF64\"><b>"..(l(a)..("</b></font>\n"..l(x.Content or"")))
+local function B(m, p)
+    local d = Instance.new("UIPadding")
+    d.PaddingTop = UDim.new(0, p)
+    d.PaddingBottom = UDim.new(0, p)
+    d.PaddingLeft = UDim.new(0, p)
+    d.PaddingRight = UDim.new(0, p)
+    d.Parent = m
+end
+local function l(m)
+    return (((tostring(m):gsub("&","&amp;")):gsub("<","&lt;")):gsub(">","&gt;"))
+end
+local function j(m)
+    return m.UserInputType == Enum.UserInputType.MouseButton1 or m.UserInputType == Enum.UserInputType.Touch
+end
+
+-- ScreenGui
+local P = Instance.new("ScreenGui")
+P.Name = "Mushrooming"
+P.ResetOnSpawn = false
+P.IgnoreGuiInset = true
+P.DisplayOrder = 999
+P.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+if not pcall(function() P.Parent = (gethui and gethui()) or x end) then
+    P.Parent = s
+end
+L.gui = P
+
+-- Main Frame
+local w = Instance.new("Frame")
+w.Name = "Main"
+w.Size = UDim2.fromOffset(G, g)
+w.Position = UDim2.new(1, -(G + 18), 0, 50)
+w.BackgroundColor3 = c
+w.BackgroundTransparency = 0.08
+w.BorderSizePixel = 0
+w.ClipsDescendants = true
+k(w, 12)
+w.Parent = P
+
+-- subtle stroke
+local stroke = Instance.new("UIStroke")
+stroke.Color = Color3.fromRGB(60, 60, 70)
+stroke.Thickness = 1
+stroke.Transparency = 0.4
+stroke.Parent = w
+
+-- Header
+local E = Instance.new("Frame")
+E.Size = UDim2.new(1, 0, 0, Z)
+E.BackgroundColor3 = Color3.fromRGB(22, 22, 28)
+E.BorderSizePixel = 0
+k(E, 12)
+E.Parent = w
+
+-- fill bottom of header so corner only top
+local R = Instance.new("Frame")
+R.Size = UDim2.new(1, 0, 0, 12)
+R.Position = UDim2.new(0, 0, 1, -12)
+R.BackgroundColor3 = Color3.fromRGB(22, 22, 28)
+R.BorderSizePixel = 0
+R.Parent = E
+
+-- Title with icon
+local N = Instance.new("TextLabel")
+N.Size = UDim2.new(1, -70, 1, 0)
+N.Position = UDim2.new(0, 12, 0, 0)
+N.BackgroundTransparency = 1
+N.Font = Enum.Font.GothamBold
+N.TextSize = 15
+N.TextColor3 = I
+N.TextXAlignment = Enum.TextXAlignment.Left
+N.Text = "🍄  Mushrooming"
+N.Parent = E
+
+-- Minimize
+local r = Instance.new("TextButton")
+r.Size = UDim2.fromOffset(26, 22)
+r.Position = UDim2.new(1, -60, 0.5, -11)
+r.BackgroundColor3 = c3
+r.BorderSizePixel = 0
+r.Font = Enum.Font.GothamBold
+r.TextSize = 14
+r.TextColor3 = z
+r.Text = "–"
+k(r, 6)
+r.Parent = E
+
+-- Close
+local d = Instance.new("TextButton")
+d.Size = UDim2.fromOffset(26, 22)
+d.Position = UDim2.new(1, -30, 0.5, -11)
+d.BackgroundColor3 = Color3.fromRGB(220, 60, 70)
+d.BorderSizePixel = 0
+d.Font = Enum.Font.GothamBold
+d.TextSize = 12
+d.TextColor3 = Color3.new(1,1,1)
+d.Text = "✕"
+k(d, 6)
+d.Parent = E
+
+-- Content Scroller
+local M = Instance.new("ScrollingFrame")
+M.Position = UDim2.new(0, 0, 0, Z)
+M.Size = UDim2.new(1, 0, 1, -Z)
+M.BackgroundTransparency = 1
+M.BorderSizePixel = 0
+M.ScrollBarThickness = 3
+M.ScrollBarImageColor3 = Color3.fromRGB(80, 80, 90)
+M.ScrollingDirection = Enum.ScrollingDirection.Y
+M.CanvasSize = UDim2.new()
+M.AutomaticCanvasSize = Enum.AutomaticSize.Y
+M.Parent = w
+B(M, 8)
+
+local h = Instance.new("UIListLayout")
+h.Padding = UDim.new(0, 6)
+h.SortOrder = Enum.SortOrder.LayoutOrder
+h.Parent = M
+
+local A = 0
+local function V()
+    A = A + 1
+    return A
+end
+
+-- Modern Paragraph / Status card
+function L.paragraph(title, content)
+    local card = Instance.new("Frame")
+    card.Size = UDim2.new(1, 0, 0, 0)
+    card.AutomaticSize = Enum.AutomaticSize.Y
+    card.BackgroundColor3 = c2
+    card.BorderSizePixel = 0
+    card.LayoutOrder = V()
+    k(card, 8)
+    card.Parent = M
+    B(card, 8)
+
+    local titleLbl = Instance.new("TextLabel")
+    titleLbl.Size = UDim2.new(1, 0, 0, 16)
+    titleLbl.BackgroundTransparency = 1
+    titleLbl.Font = Enum.Font.GothamBold
+    titleLbl.TextSize = 12
+    titleLbl.TextColor3 = I
+    titleLbl.TextXAlignment = Enum.TextXAlignment.Left
+    titleLbl.Text = title
+    titleLbl.Parent = card
+
+    local body = Instance.new("TextLabel")
+    body.Size = UDim2.new(1, 0, 0, 0)
+    body.Position = UDim2.new(0, 0, 0, 18)
+    body.AutomaticSize = Enum.AutomaticSize.Y
+    body.BackgroundTransparency = 1
+    body.Font = Enum.Font.Gotham
+    body.TextSize = 11
+    body.TextColor3 = z
+    body.TextXAlignment = Enum.TextXAlignment.Left
+    body.TextYAlignment = Enum.TextYAlignment.Top
+    body.TextWrapped = true
+    body.RichText = true
+    body.Text = content or ""
+    body.Parent = card
+
+    local api = {}
+    function api.Set(_, data)
+        titleLbl.Text = data.Title or title
+        body.Text = data.Content or ""
     end
-    a:Set({Title=m;Content=x})
-    return a
-end function L.group()
-    local m=Instance.new("Frame")
-    m.Size=UDim2.new(1,0,0,0)
-    m.AutomaticSize=Enum.AutomaticSize.Y
-    m.BackgroundTransparency=1
-    m.LayoutOrder=V()
-    m.Parent=M
-    local x=Instance.new("UIGridLayout")
-    x.CellSize=UDim2.new(0.5,-3,0,24)
-    x.CellPadding=UDim2.fromOffset(5,5)
-    x.SortOrder=Enum.SortOrder.LayoutOrder
-    x.Parent=m
-    return m
-end local function F(m,x)
-    local D=Instance.new("TextButton")
-    D.BackgroundColor3=z
-    D.BorderSizePixel=0
-    D.AutoButtonColor=false
-    D.Font=Enum.Font.GothamBold
-    D.TextSize=11
-    D.TextColor3=c
-    D.TextWrapped=true
-    D.Text=x
-    D.LayoutOrder=V()
-    k(D,6)
-    D.Parent=m
-    return D
-end function L.button(m,x,D)local a=F(m,x)a.MouseButton1Click:Connect(function()pcall(D)end)return a end function L.toggle(m,x,D,a,X)X=X or{}local y=X.persist~=false local u if y then u=Q[D]if u==nil then u=X.default==true end else u=false end local i=F(m,x)local function K()i.BackgroundColor3=u and I or z end local function p(m)u=m and true or false if y then Q[D]=u q()end K()pcall(a,u)end i.MouseButton1Click:Connect(function()p(not u)end)L.setters[D]=p K()pcall(a,u)return i end function L.slider(m,x,a,X,y,u,i,K)
-    local p=math.clamp(tonumber(Q[x])or u,a,X)
-    local S=Instance.new("Frame")
-    S.Size=UDim2.new(1,0,0,34)
-    S.BackgroundColor3=Color3.fromRGB(22,22,26)
-    S.BackgroundTransparency=0.25
-    S.BorderSizePixel=0
-    S.LayoutOrder=V()
-    S.Parent=M
-    k(S,7)
-    local s=Instance.new("TextLabel")
-    s.Size=UDim2.new(1,-14,0,15)
-    s.Position=UDim2.new(0,7,0,2)
-    s.BackgroundTransparency=1
-    s.Font=Enum.Font.GothamMedium
-    s.TextSize=11
-    s.TextColor3=z
-    s.TextXAlignment=Enum.TextXAlignment.Left
-    s.Parent=S
-    local O=Instance.new("Frame")
-    O.Size=UDim2.new(1,-14,0,8)
-    O.Position=UDim2.new(0,7,0,20)
-    O.BackgroundColor3=Color3.fromRGB(55,55,60)
-    O.BorderSizePixel=0
-    O.Parent=S local C=Instance.new("Frame")C.BackgroundColor3=I C.BorderSizePixel=0 C.Size=UDim2.new(0,0,1,0)C.Parent=O k(O,6)k(C,6)local function J()local x=y<.1 and string.format("%.2f",p)or(y<1 and string.format("%.1f",p)or tostring(p))s.Text=m..(": "..(x..(" "..i)))C.Size=UDim2.new(((p-a))/((X-a)),0,1,0)end local function H(m)local D=math.clamp(((m-O.AbsolutePosition.X))/math.max(O.AbsoluteSize.X,1),0,1)local u=math.floor(((a+((X-a))*D))/y+.5)*y u=tonumber(string.format("%.3f",math.clamp(u,a,X)))if u~=p then p=u Q[x]=u J()pcall(K,u)end end local v=false O.InputBegan:Connect(function(m)if j(m)then v=true H(m.Position.X)end end)t(D.InputChanged:Connect(function(m)if v and((m.UserInputType==Enum.UserInputType.MouseMovement or m.UserInputType==Enum.UserInputType.Touch))then H(m.Position.X)end end))t(D.InputEnded:Connect(function(m)if v and j(m)then v=false q()end end))J()pcall(K,p)end local W=false r.MouseButton1Click:Connect(function()W=not W M.Visible=not W R.Visible=not W w.Size=W and UDim2.fromOffset(G,Z) or UDim2.fromOffset(G,g)end)t(D.InputBegan:Connect(function(m)if m.KeyCode==Enum.KeyCode.LeftAlt then w.Visible=not w.Visible end end))do local m,x E.InputBegan:Connect(function(D)if j(D)then m,x=D.Position,w.Position end end)t(D.InputChanged:Connect(function(D)if m and((D.UserInputType==Enum.UserInputType.MouseMovement or D.UserInputType==Enum.UserInputType.Touch))then local a=D.Position-m w.Position=UDim2.new(x.X.Scale,x.X.Offset+a.X,x.Y.Scale,x.Y.Offset+a.Y)end end))t(D.InputEnded:Connect(function(x)if j(x)then m=nil end end))end function L.unload()if not U then return end U=false for m,x in ipairs(b)do pcall(function()x:Disconnect()end)end if L.onClose then pcall(L.onClose)end pcall(function()P:Destroy()end)end d.MouseButton1Click:Connect(L.unload)local e={"common","uncommon","rare","epic";"legendary";"mythic","secret","celestial","ancestral"}local Y={RustyKnife=2,PocketKnife=3;ForagersKnife=3;BoneKnife=4;SilverSickle=4;MycologistScalpel=5,MoonsilverBlade=6;SporebloomKnife=7;GlimmerstoneKnife=7;HumstoneKnife=8}local f={MaxRange=math.huge,SkipNames={};MinRarity="common";MaxRarity="auto";RarityWeight=20,WalkTimeout=25;NoProgressTimeout=12,AgentRadius=3.5;MaxReplans=8,MaxHop=3.6;PressKey=Enum.KeyCode.E,InputLatency=.05,AimTimeout=8;AutoSell=true,AutoWash=true;AutoWalk=true;RarityOn={};AutoTune=true,InstantCut=true;MerchantPos=nil;WashPos=nil}for m=1,#e,1 do f.RarityOn[m]=true end local mb=false local xb,Db=0,false local ab=(X:WaitForChild("Remotes")):WaitForChild("Net")local Xb=workspace:WaitForChild("Mushrooms")local yb={}for m,x in ipairs(e)do yb[x]=m end local ub=yb[(tostring(f.MinRarity)):lower()]or 1 local function ib(m)return e[m]or("rarity"..tostring(m))end local Kb="autofarm_species.json"local pb="autofarm_merchant.json"local Sb={}pcall(function()if isfile and isfile(Kb)then local m=a:JSONDecode(readfile(Kb))if type(m)=="table"then Sb=m end end end)local function sb()pcall(function()writefile(Kb,a:JSONEncode(Sb))end)end local Ob="autofarm_wash.json"local function Cb(m)pcall(function()writefile(Ob,a:JSONEncode({m.X;m.Y,m.Z}))end)end pcall(function()if isfile and isfile(Ob)then local m=a:JSONDecode(readfile(Ob))if type(m)=="table"and#m==3 then f.WashPos=Vector3.new(m[1],m[2],m[3])end end end)local function Jb(m)local x={}for m,D in ipairs(m)do local a=type(D)x[#x+1]=((a=="string"or a=="number"or a=="boolean"))and tostring(D)or("<"..(a..">"))end return table.concat(x,",")end local function Qb(m)pcall(function()writefile(pb,a:JSONEncode({m.X,m.Y;m.Z}))end)end pcall(function()if isfile and isfile(pb)then local m=a:JSONDecode(readfile(pb))if type(m)=="table"and#m==3 then f.MerchantPos=Vector3.new(m[1],m[2],m[3])end end end)local qb={event=nil,eventAt=0,caughtAt=0,invCount=0,capacity=12,harvested=0;perfect=0;pack=nil,tool=nil;toast=nil;toastAt=0,washDone={};washClientDone={};washAuto=false,lastDmg=0,target="-"}local function Hb()local function m(m)if not m then return nil end for m,x in ipairs(m:GetChildren())do if x:IsA("Tool")and x:GetAttribute("Knife")then return x.Name end end end return m(S.Character)or m(S:FindFirstChildOfClass("Backpack"))end qb.tool=Hb()local function vb()if f.MaxRarity~="auto"then return yb[(tostring(f.MaxRarity)):lower()]or#e end return Y[qb.tool or""]or#e end local Ib={.05;.02;.08;.0,.11;.035,.065;.095}local zb,cb=1,0 local function Gb(m)if not((f.AutoTune and f.InstantCut))then return end if qb.hitch then return end if m>0 then cb=cb+1 if cb>=2 then cb=0 zb=zb%#Ib+1 f.InputLatency=Ib[zb]v(string.format("AutoTune: InputLatency -> %.3f",f.InputLatency))end else cb=0 end end local gb=ab.OnClientEvent:Connect(function(m,x)if type(m)=="string"and(m:lower()):find("wash")then qb.washAt=os.clock()end if m=="wash"and(type(x)=="table"and(qb.washAuto and(x.id and not qb.washDone[x.id])))then qb.washDone[x.id]=true local m=x.id local D=5+math.random()*1.5 task.delay(D,function()if qb.washAuto and not qb.washClientDone[m]then pcall(function()ab:FireServer("wash_done",m)end)end end)end if m=="harvest"and type(x)=="table"then qb.event=x qb.eventAt=os.clock()local m,D=x.sp or x.name,tonumber(x.rarity)if m and D then local x=Sb[m]if not x or D>x then Sb[m]=D v(string.format("Species %s = rarity %d (%s)",m,D,ib(D)))sb()end end elseif m=="caught"and type(x)=="table"then qb.caughtAt=os.clock()qb.harvested=qb.harvested+1 local m=tonumber(x.dmg)or 0 qb.lastDmg=m if m==0 then qb.perfect=qb.perfect+1 end v(string.format("Caught #%d: %s %skg dmg=%s %s",qb.harvested,tostring(x.sp),tostring(x.kg),tostring(x.dmg),m==0 and"PERFECT"or"IMPERFECT"))Gb(m)elseif m=="sync"and type(x)=="table"then if type(x.inv)=="table"then qb.invCount=#x.inv end if type(x.capacity)=="number"then qb.capacity=x.capacity end if x.pack~=qb.pack or x.tool~=qb.tool then qb.pack,qb.tool=x.pack,x.tool v(string.format("Equipment: knife=%s backpack=%s capacity=%s maxRarity=%s",tostring(x.tool),tostring(x.pack),tostring(x.capacity),ib(vb())))end elseif m=="toast"then qb.toast,qb.toastAt=tostring(x),os.clock()v("Toast: "..tostring(x))end end)local Zb=i.PromptTriggered:Connect(function(m)local x=((m.ObjectText or"")):lower()local D=(x..(" "..(((m.ActionText or"")):lower()..(" "..((m.Parent and m.Parent.Name or"")):lower()))))if D:find("wash")and(m.Parent and m.Parent:IsA("BasePart"))then f.WashPos=m.Parent.Position Cb(f.WashPos)v("Wash station position learned: "..tostring(f.WashPos))end if x:find("merchant")and(not x:find("scale")and(m.Parent and m.Parent:IsA("BasePart")))then f.MerchantPos=m.Parent.Position Qb(f.MerchantPos)v("Merchant position learned: "..tostring(f.MerchantPos))end end)local Tb=(getgenv()).__MushSpy pcall(function()if not((hookmetamethod and getnamecallmethod))then return end if not Tb then Tb={};(getgenv()).__MushSpy=Tb local m m=hookmetamethod(game,"__namecall",function(x,...)if Tb.net and(x==Tb.net and(getnamecallmethod()=="FireServer"and(not((checkcaller and checkcaller()))and Tb.cb)))then pcall(Tb.cb,{...})end return m(x,...)end)end Tb.net=ab Tb.cb=function(m)if m[1]=="harvest_done"and(type(m[2])=="number"and not qb.idSrc)then local x,D,a=qb.event,qb.curModel,nil if type(x)=="table"then for x,D in pairs(x)do if D==m[2]then a={kind="event",key=x}break end end end if not a and D then for x,D in pairs(D:GetAttributes())do if D==m[2]then a={kind="attr";key=x}break end end if not a and tonumber(D.Name)==m[2]then a={kind="name"}end end if a then qb.idSrc=a task.defer(function()v("Harvest id learned ("..(a.kind..") -> Auto Cut can send the perfect result directly"))end)end end if m[1]=="wash_done"then qb.washClientDone[m[2]]=true end end end)local function Lb()local m=S.Character local x=m and m:FindFirstChild("HumanoidRootPart")if x then f.WashPos=x.Position Cb(x.Position)v("WashPos saved: "..tostring(x.Position))end end;(getgenv()).SetWash=Lb local function Ub()local m=S.Character local x=m and m:FindFirstChild("HumanoidRootPart")if x then f.MerchantPos=x.Position Qb(x.Position)v("MerchantPos saved: "..tostring(x.Position))end end;(getgenv()).SetMerchant=Ub local function bb()local m=S.Character return m and m:FindFirstChildOfClass("Humanoid"),m and m:FindFirstChild("HumanoidRootPart")end local function tb(m,x)return(Vector3.new(m.X-x.X,0,m.Z-x.Z)).Magnitude end local function kb(m,x)local D=os.clock()while mb and os.clock()-D<x do if m()then return true end task.wait(.05)end return m()end local function Bb(m)pcall(function()p:SendKeyEvent(true,m,false,game)task.wait(.05)p:SendKeyEvent(false,m,false,game)end)end local function lb(m)local x=S:FindFirstChildOfClass("PlayerGui")local D=m while D and D~=x do if D:IsA("GuiObject")and not D.Visible then return false end if D:IsA("ScreenGui")and not D.Enabled then return false end D=D.Parent end return true end local function jb(m)local x=false if firesignal then x=pcall(function()firesignal(m.Activated)firesignal(m.MouseButton1Click)end)end if not x then local x=u:GetGuiInset()local D=m.AbsolutePosition.X+m.AbsoluteSize.X/2 local a=(m.AbsolutePosition.Y+m.AbsoluteSize.Y/2)+x.Y pcall(function()p:SendMouseButtonEvent(D,a,0,true,game,1)task.wait(.05)p:SendMouseButtonEvent(D,a,0,false,game,1)end)end end local function Pb(m)local x=S:FindFirstChildOfClass("PlayerGui")if not x then return nil end for x,D in ipairs(x:GetDescendants())do if D:IsA("GuiButton")and(lb(D)and m(D))then return D end end return nil end local wb=RaycastParams.new()wb.FilterType=Enum.RaycastFilterType.Exclude pcall(function()wb.RespectCanCollide=true end)local function ob()local x={Xb}local D=workspace:FindFirstChild("NPCs")if D then x[#x+1]=D end for m,D in ipairs(m:GetPlayers())do if D.Character then x[#x+1]=D.Character end end wb.FilterDescendantsInstances=x end local function Eb(m,x)return workspace:Raycast(m,x,wb)end local function Rb(m,x)local D=Vector3.new(x.X-m.X,0,x.Z-m.Z)if D.Magnitude<.01 then return nil end return D.Unit end local function Nb(m,x)local D=math.rad(x)local a,X=math.cos(D),math.sin(D)return Vector3.new(m.X*a-m.Z*X,0,m.X*X+m.Z*a)end local function nb(m,x)return x.Position.Y-((x.Size.Y/2+((m.HipHeight or 2))))end local function rb(m)local x=5 pcall(function()if m.UseJumpPower then x=m.JumpPower^2/((2*workspace.Gravity))else x=m.JumpHeight end end)return math.min(f.MaxHop,x*.85)end local function db(m,x,D,a)local X=nb(m,x)local y=Vector3.new(-D.Z,0,D.X)*1.3 for m,y in ipairs({Vector3.new(0,0,0);y,-y})do local u=Vector3.new(x.Position.X,X+1.2,x.Position.Z)+y local i=Eb(u,D*a)if i and i.Normal.Y<.6 then return i end end return nil end local Mb={.6;1.4;2.2;3.0;3.8}local function hb(m,x,D,a)local X=nb(m,x)local y,u=x.Position.X,x.Position.Z local i for m,x in ipairs(Mb)do local K=Eb(Vector3.new(y,X+x,u),D*a)if K and K.Normal.Y<.6 then i=K break end end if not i then return nil end local K=rb(m)if Eb(Vector3.new(y,(X+K)+1.2,u),D*((a+1)))then return nil end local p=Vector3.new(-D.Z,0,D.X)local S for m,x in ipairs({.3,.9,1.5})do for m,a in ipairs({0,.8,-0.8})do local y=(i.Position+D*x)+p*a local u=Eb(Vector3.new(y.X,(X+K)+3,y.Z),Vector3.new(0,-((K+3.5)),0))if u and((not S or u.Position.Y>S))then S=u.Position.Y end end end local s=S and(S-X)or 0 if s<.8 then s=((i.Position.Y-X))+.5 end if s<.8 or s>K then return nil end return s end local function Ab(m,x,D)local a=K:CreatePath({AgentRadius=D or f.AgentRadius;AgentHeight=5,AgentCanJump=true;AgentCanClimb=false,WaypointSpacing=2.5;Costs={Water=math.huge}})local X=pcall(function()a:ComputeAsync(m,x)end)if X and a.Status==Enum.PathStatus.Success then return a:GetWaypoints(),a end return nil,a end local Vb="autofarm_blocked.json"local Fb={}pcall(function()if isfile and isfile(Vb)then local m=a:JSONDecode(readfile(Vb))if type(m)=="table"then for m,x in ipairs(m)do if type(x)=="table"and#x==3 then Fb[#Fb+1]=Vector3.new(x[1],x[2],x[3])end end end end end)local function Wb()pcall(function()local m={}for x,D in ipairs(Fb)do m[#m+1]={D.X,D.Y;D.Z}end writefile(Vb,a:JSONEncode(m))end)end local function eb(m)for x,D in ipairs(Fb)do if tb(D,m)<4 and math.abs(D.Y-m.Y)<8 then return end end Fb[#Fb+1]=m if#Fb>80 then table.remove(Fb,1)end Wb()end;(getgenv()).ClearBlocked=function()Fb={}Wb()end local function Yb(m,x,D)local a,X=D.X-x.X,D.Z-x.Z local y=a*a+X*X local u=y>0 and math.clamp(((((m.X-x.X))*a+((m.Z-x.Z))*X))/y,0,1)or 0 local i,K=x.X+u*a,x.Z+u*X return math.sqrt(((m.X-i))^2+((m.Z-K))^2)end local function fb(m,x)for D,a in ipairs(Fb)do for D=1,#m,1 do local X=m[D].Position local y=m[D+1]and m[D+1].Position or X if math.abs(X.Y-a.Y)<8 and Yb(a,X,y)<x then return a end end end return nil end local function mw(m,x,D,a)local X=Rb(m,x)or Vector3.new(1,0,0)for y,u in ipairs({14;24;36})do for y,i in ipairs({90;-90;60;-60;120;-120})do local K=a+Nb(X,i)*u local p=Eb(Vector3.new(K.X,a.Y+40,K.Z),Vector3.new(0,-80,0))if p then local a=p.Position+Vector3.new(0,2,0)local X=Ab(m,a,D)if X and not fb(X,5)then local m=Ab(a,x,D)if m and not fb(m,5)then local x={}for m,D in ipairs(X)do x[#x+1]=D end for D=2,#m,1 do x[#x+1]=m[D]end return x end end end end end return nil end local function xw(m,x)local D=Rb(x.Position,x.Position+x.CFrame.LookVector)or Vector3.new(0,0,-1)for a,X in ipairs({90;-90,135,-135;180})do local y=Nb(D,X)if not db(m,x,y,7)then m:MoveTo(x.Position+y*7)local D=os.clock()while mb and os.clock()-D<1.0 do task.wait(.1)end return true end end m.Jump=true return false end local function Dw(m,x,D,a,X,y)if X.steerDir and(y<X.steerUntil and not db(m,x,X.steerDir,3))then return x.Position+X.steerDir*5 end local u=((X.side or 1))>0 and{35;65,95;-35;-65;-95}or{-35,-65;-95,35;65;95}for a,u in ipairs(u)do local i=Nb(D,u)if not db(m,x,i,4.5)then X.side=u>0 and 1 or-1 X.steerDir,X.steerUntil=i,y+.8 return x.Position+i*5 end end X.steerDir,X.steerUntil=nil,0 m.Jump=true return x.Position-D*4 end local function aw(m,x,D,a)if#D<2 then return 0 end local X=x.Position local y=0 for u=#D,1,-1 do if not mb then return y end local i=D[u]if tb(X,i)>a or y>=5 then break end if tb(x.Position,i)>2 then m:MoveTo(i)local D=os.clock()while mb and(os.clock()-D<1.0 and tb(x.Position,i)>2)do task.wait(.1)end y=y+1 end end return y end local function Xw(m,x,D,a,X,y,u)for i=(#m>1 and 2 or 1),#m,1 do local K=m[i]if K.Action==Enum.PathWaypointAction.Jump then x.Jump=true end x:MoveTo(K.Position)local p=os.clock()local S,s,O=D.Position,os.clock(),0 while mb and os.clock()<X do if a()then return"arrived"end if y.v then return"blocked"end if u.isStalled()then return"stalled"end local m=os.clock()if tb(D.Position,K.Position)<3 then break end if m-p>6 then return"stuck"end local X=u.trail local i=X[#X]if not i or((D.Position-i)).Magnitude>=2 then X[#X+1]=D.Position if#X>60 then table.remove(X,1)end end local C=K.Position local J=Rb(D.Position,K.Position)if J then local a=u.noHopPos and(m<u.noHopUntil and tb(D.Position,u.noHopPos)<6)local X=(not a)and hb(x,D,J,3)or nil if X then if m-u.lastHop>.7 then if u.hopSpot and tb(D.Position,u.hopSpot)<3 then u.hopCount=u.hopCount+1 else u.hopSpot,u.hopCount=D.Position,1 end if u.hopCount>2 then u.noHopPos,u.noHopUntil,u.hopCount=u.hopSpot,m+25,0 eb(u.hopSpot)else x.Jump=true u.lastHop=m end end elseif db(x,D,J,3)then C=Dw(x,D,J,K.Position,u,m)end end x:MoveTo(C)if((D.Position-S)).Magnitude>.4 then S,s,O=D.Position,m,0 elseif m-s>.6 then O=O+1 if O>2 then return"stuck"end x.Jump=true s=m end task.wait(.1)end if os.clock()>=X then return"timeout"end end return a()and"arrived"or"done"end local function yw(m,x,D,a,X)local y,u=bb()if not y or not u then return false,"nochar"end ob()local i=os.clock()+D local K=a or{}local p,S=math.huge,os.clock()local function s()local D=tb(u.Position,m)if D<p-3 then p,S=D,os.clock()end return D<=x end local O={f.AgentRadius,2.5;1.8}local C=1 local J=0 local Q={trail=K,lastHop=0;hopCount=0;noHopUntil=0,steerUntil=0,side=1}local q=false Q.isStalled=function()return os.clock()-S>((X or f.NoProgressTimeout))end while mb and os.clock()<i do if s()then y:MoveTo(u.Position)return true end local D,a if q then q=false D,a=Ab(u.Position,m,5)end for x=C,#O,1 do if D then break end D,a=Ab(u.Position,m,O[x])if D then C=x break end end if not D then local X=math.max(x-1,2)for x=0,7,1 do D,a=Ab(u.Position,m+Nb(Vector3.new(1,0,0),x*45)*X,O[#O])if D then break end end end if not D then if tb(u.Position,m)<30 then D={{Position=m;Action=Enum.PathWaypointAction.Walk}}else return false,"nopath"end end if D and(a and#Fb>0)then local x=fb(D,5)if x then local X=mw(u.Position,m,O[C],x)if X then D,a=X,nil end end end local X={v=false}local p if a then p=a.Blocked:Connect(function()X.v=true end)end local S=Xw(D,y,u,s,i,X,Q)if p then p:Disconnect()end if S=="arrived"then y:MoveTo(u.Position)return true end if S=="stalled"then y:MoveTo(u.Position)return false,string.format("no progress, %.0f studs left",tb(u.Position,m))end J=J+1 if J>f.MaxReplans then y:MoveTo(u.Position)return false,"stuck"end if S=="stuck"then eb(u.Position)aw(y,u,K,6+J*2)if J>=3 then C=math.min(C+1,#O)else q=true end xw(y,u)end end y:MoveTo(u.Position)return s(),"timeout"end local uw,iw={},{}local Kw={}local function pw(m)Kw[m]=((Kw[m]or 0))+1 uw[m]=os.clock()+math.min(60*3^((Kw[m]-1)),900)end local Sw={}for m,x in ipairs(f.SkipNames)do Sw[x]=true end local function sw()local m,x=bb()if not x then return nil end local D=vb()local a,X for m,y in ipairs(Xb:GetChildren())do if y:IsA("Model")and(not Sw[y.Name]and not((uw[y]and uw[y]>os.clock())))then local m=y:GetAttribute("Sp")or y.Name if not((iw[m]and iw[m]>os.clock()))then local u=y:FindFirstChild("Base")local i=u and u:FindFirstChildOfClass("ProximityPrompt")if i and i.Enabled then local K=Sb[m]local p=((u.Position-x.Position)).Magnitude local S=f.AutoWalk and f.MaxRange or math.max(i.MaxActivationDistance-.5,1)if p<=S and not((K and((K<ub or K>D or f.RarityOn[K]==false))))then local x=p-((K or 0))*f.RarityWeight if not X or x<X then a,X={model=y,base=u;prompt=i,sp=m;rarity=K},x end end end end end end return a end local function Ow(m)local x=os.clock()if fireproximityprompt then pcall(fireproximityprompt,m)end if kb(function()return qb.eventAt>x end,1.5)then return true end Bb(Enum.KeyCode.E)return kb(function()return qb.eventAt>x end,1.5)end local function Cw()local m=S:FindFirstChildOfClass("PlayerGui")local x=m and m:FindFirstChild("MainUI")local D=x and x:FindFirstChild("Harvest")local a=D and D:FindFirstChild("Bar")if not a then return nil end local X=a:FindFirstChild("Zone")local y=X and X:FindFirstChild("Perfect")if not y then for m,x in ipairs(a:GetDescendants())do if x:IsA("GuiObject")and(x.Name:lower()):find("perfect")then y=x break end end end return{root=D,marker=a:FindFirstChild("Marker"),zone=X;perfect=y,title=D:FindFirstChild("Title")}end local function Jw(m)local x=m and(m.title and m.title.Text)or""return tonumber(x:match("Cut%s*(%d+)%s*/"))end local function Qw(m)local x=os.clock()local D,a,X,u while mb and(os.clock()-x<f.AimTimeout and qb.caughtAt<m)do local m=Cw()if m and(m.marker and m.zone)then local y=os.clock()local i=m.marker.AbsolutePosition.X+m.marker.AbsoluteSize.X/2 if D and y>a then local x=((i-D))/((y-a))local u=(m.zone.Parent and m.zone.Parent.AbsoluteSize.X)or 0 if u<=0 then u=556 end if math.abs(x)<=u*1.4 then if X and x*X<0 then X=x else X=X and(X*.5+x*.5)or x end end end local K=m.perfect or m.zone local p=K.AbsolutePosition.X+K.AbsoluteSize.X/2 local S=K.AbsoluteSize.X/2 if not m.perfect then S=S*.3 end if X and a then local m=math.max(y-a,.008)local D=((i+X*f.InputLatency))-p local K=D*X<0 local s,O=false,""local C=m>.04 and os.clock()-x<4 if C then u=nil elseif K and math.abs(D)<=(math.abs(X)*m)*1.2 then local m=math.min(math.abs(D)/math.abs(X),.04)local x=os.clock()+m while os.clock()<x do end s,O=true,"lead"elseif u and(u*D<=0 and math.abs(D)<=S*.9)then s,O=true,"cross"end if s then if m>.035 then qb.hitch=true end Bb(f.PressKey)return true end u=D end D,a=i,y end y.Heartbeat:Wait()end return false end local function qw()local m,x,D=qb.idSrc,qb.event,qb.curModel if not m then return nil end if m.kind=="event"then return type(x)=="table"and x[m.key]or nil end if m.kind=="attr"then return D and D:GetAttribute(m.key)or nil end return D and tonumber(D.Name)or nil end local function Hw(m,x,D)if((qb.directBad or 0))>=2 then return false end local a=qw()if not a then return false end task.wait(.4+math.random()*.5)local X={}for m=1,D,1 do X[m]=1 end pcall(function()ab:FireServer("harvest_done",a,X)end)local y=kb(function()return qb.caughtAt>=x end,2.5)if y and qb.lastDmg==0 then qb.directBad=0 return true end qb.directBad=((qb.directBad or 0))+1 if qb.directBad>=2 then v("Direct cut did not work -> using perfect timing instead")end return y end local function vw(m,x)for D=1,x,1 do if not mb or qb.caughtAt>=m then break end if not Qw(m)and qb.caughtAt<m then Bb(f.PressKey)end if D<x then kb(function()if qb.caughtAt>=m then return true end local x=Jw(Cw())return x~=nil and x>D end,3)end end for x=1,3,1 do if kb(function()return qb.caughtAt>=m end,2.5)then return true end if not mb then return false end Bb(f.PressKey)end return qb.caughtAt>=m end local function Iw(m,x)local D=tonumber(m.cuts)or 1 v(string.format("Harvest %s | rarity=%s cuts=%d",tostring(m.name),ib(tonumber(m.rarity)),D))qb.hitch=false task.wait(.25)if not f.InstantCut then return kb(function()return qb.caughtAt>=x end,30)end if Hw(m,x,D)then return true end return vw(x,D)end local function zw()local function m(m)local x=((((m.ObjectText or""))..(" "..((m.ActionText or""))))):lower()local D=m:FindFirstAncestorOfClass("Model")local a=((D and D.Name or"")):lower()if((x:find("merchant")or a:find("merchant")or x:find("trader")or a:find("trader")))and(not x:find("scale")and not a:find("scale"))then local x=m.Parent if x and x:IsA("BasePart")then return{prompt=m;pos=x.Position}end end end local x=workspace:FindFirstChild("NPCs")if x then for x,D in ipairs(x:GetDescendants())do if D:IsA("ProximityPrompt")then local x=m(D)if x then return x end end end end for x,D in ipairs(workspace:GetDescendants())do if D:IsA("ProximityPrompt")and not D:IsDescendantOf(Xb)then local x=m(D)if x then return x end end end return nil end local function cw()local m=Pb(function(m)return m.Name=="Close"and(not m:FindFirstAncestor("Harvest")and not m:IsDescendantOf(P))end)if m then jb(m)end end local function Gw(m,x)local D,a=bb()if not D or not a then return end if#m<2 then v("Entry trail to the merchant is empty, skipping the trail exit")return end local X=0 for y=#m,1,-1 do if not mb then return end local u=m[y]if tb(a.Position,x)>24 then break end D:MoveTo(u)local i=os.clock()while mb and(os.clock()-i<1.6 and tb(a.Position,u)>2.5)do task.wait(.1)end X=X+1 end v(string.format("Left the merchant area along the entry trail (%d points)",X))end local function gw()local m,x=bb()local D,a for m,X in ipairs(workspace:GetDescendants())do if X:IsA("ProximityPrompt")and not X:IsDescendantOf(Xb)then local m=X:FindFirstAncestorOfClass("Model")local y=((((X.ObjectText or""))..(" "..(((X.ActionText or""))..(" "..(((m and m.Name or""))..(" "..((X.Parent and X.Parent.Name or""))))))))):lower()local u=X.Parent if y:find("wash")and(u and u:IsA("BasePart"))then local m=x and((u.Position-x.Position)).Magnitude or 0 if not a or m<a then D,a={prompt=X;pos=u.Position},m end end end end return D end local function Zw()local m=S:FindFirstChildOfClass("PlayerGui")if not m then return false end for m,x in ipairs(m:GetDescendants())do if x:IsA("TextLabel")and((x.Text:lower()):find("scrub the mud")and lb(x))then return true end end return false end local function Tw()for m=1,3,1 do if not Zw()then break end Bb(Enum.KeyCode.Escape)task.wait(.7)end end local Lw=false local function Uw()qb.washDone,qb.washClientDone,qb.washAuto={},{},false local m=gw()local x=(m and m.pos)or f.WashPos if not x then if not Lw then Lw=true v("Wash station unknown -> selling without washing. Wash once by hand (the bot learns the station), or stand at it and press Set Wash Spot.")end return false end if m then f.WashPos=m.pos Cb(m.pos)end qb.target="Wash"do local m,D=bb()if f.AutoWalk then v("Going to the wash station first")local m={}local a={}for m=0,7,1 do a[#a+1]=x+Nb(Vector3.new(1,0,0),m*45)*5 end if D then table.sort(a,function(m,x)return tb(D.Position,m)<tb(D.Position,x)end)end local X={x;a[1],a[#a];a[4]}for D=1,4,1 do local a,y=yw(X[D],D==1 and 5 or 3,45,m,12)local u,i=bb()if i and((i.Position-x)).Magnitude<=12 then break end if not mb then return false end v(string.format("Wash station approach attempt %d failed (%s)",D,tostring(y)))end end local a,X=bb()if not X or((X.Position-x)).Magnitude>14 then v("Could not reach the wash station, selling without washing")return false end end local D=os.clock()local function a()return qb.toastAt>=D and((tostring(qb.toast)):lower()):find("washed")~=nil end qb.washAuto=true task.spawn(function()local m=0 while qb.washAuto and mb do local x=workspace.CurrentCamera local D=x and x.ViewportSize or Vector2.new(1280,720)local a=u:GetGuiInset()m=m+.11 local X=D.X*.42+(math.sin(m*1.7)*D.X)*.17 local i=(D.Y*.38+(math.sin(m*2.3+1)*D.Y)*.2)+a.Y pcall(function()p:SendMouseMoveEvent(X,i,game)end)y.Heartbeat:Wait()end end)for x=1,2,1 do m=gw()or m if m and(m.prompt and fireproximityprompt)then pcall(fireproximityprompt,m.prompt)end if kb(function()return((qb.washAt or 0))>=D or a()end,3)then break end v("Wash minigame did not open, pressing the prompt again")end kb(a,120)qb.washAuto=false task.wait(.4)Tw()if not a()then v("Washing: no \'Washed\' toast, selling anyway")return false end local X=tonumber((tostring(qb.toast)):match("[Ww]ashed%s+(%d+)"))or 0 v(string.format("Washed %d mushrooms before selling",X))task.wait(.8)return X>0 end local function bw()if f.AutoWash then local m,x=pcall(Uw)if not m then v("ERROR washAll: "..tostring(x))end if not mb then return false end end v("Backpack full -> looking for the merchant")qb.target="Merchant"local m=zw()local x=(m and m.pos)or f.MerchantPos if not x then v("Merchant position unknown. Stand next to the merchant and press Set Merchant.")return false end if m then f.MerchantPos=m.pos Qb(m.pos)end local D local a={}if f.AutoWalk then local m,X=bb()local y={x}local u={}for m=0,7,1 do u[#u+1]=x+Nb(Vector3.new(1,0,0),m*45)*6 end if X then table.sort(u,function(m,x)return tb(X.Position,m)<tb(X.Position,x)end)end for m,x in ipairs(u)do y[#y+1]=x end for m=1,4,1 do local X,u=yw(y[m],m==1 and 6 or 4,50,a,25)D=u local i,K=bb()if K and((K.Position-x)).Magnitude<=16 then break end if not mb then return false end v(string.format("Merchant approach attempt %d failed (%s)",m,tostring(u)))end end local X,y=bb()if not y or((y.Position-x)).Magnitude>16 then v("Could not reach the merchant ("..(tostring(D)..")"))return false end m=zw()or m local u=qb.invCount if m and(m.prompt and fireproximityprompt)then pcall(fireproximityprompt,m.prompt)task.wait(1)end local function i()return qb.invCount<u end ab:FireServer("funnel","talkMerchant")task.wait(.4)ab:FireServer("sell","all")local K=kb(i,4)if not K then local m=Pb(function(m)return m:IsA("TextButton")and(not m:IsDescendantOf(P)and(m.Text:lower()):find("sell")~=nil)end)if m then v("Remote was not enough, clicking the button: "..m:GetFullName())jb(m)K=kb(i,4)end end task.wait(.5)cw()kb(function()local m=bb()return m and m.WalkSpeed>0 end,2)if f.AutoWalk then local m,D=pcall(Gw,a,x)if not m then v("ERROR retrace: "..tostring(D))end end v(K and string.format("Sold (bag is now %d/%d)",qb.invCount,qb.capacity)or"Sell failed. Sell manually once, then send the log.")return K end local function tw()local m=zw()local x=(m and m.pos)or f.MerchantPos local D,a=bb()return x~=nil and(a~=nil and((a.Position-x)).Magnitude<=16)end local function kw(m)if m then v(m)end mb=false if L.setters.AutoFarm then L.setters.AutoFarm(false)end end local Bw,lw=0,0 local jw,Pw=0,0 local function ww(m)while Db do task.wait(.1)end Db=true local x=0 for m in pairs(Sb)do x=x+1 end v(string.format("START | knife=%s maxRarity=%s | known species=%d | AutoCut=%s AutoSell=%s AutoWash=%s",tostring(qb.tool),ib(vb()),x,tostring(f.InstantCut),tostring(f.AutoSell),tostring(f.AutoWash)))while mb and xb==m do local m,x=pcall(function()if qb.invCount>=qb.capacity then if f.AutoSell then if not f.AutoWalk and not tw()then if os.clock()-Pw>15 then Pw=os.clock()v("Bag full, Auto Walk is off -> get within 16 studs of the merchant or sell manually. Farm is waiting.")end task.wait(1)return end if bw()then lw=0 else lw=lw+1 if lw>=2 then kw("Selling failed twice in a row. Stopping.")end end else if os.clock()-Pw>15 then Pw=os.clock()v(string.format("Backpack full (%d/%d), Auto Sell is off. Sell manually, farming resumes automatically.",qb.invCount,qb.capacity))end task.wait(1)end return end local m=bb()if not m or m.Health<=0 then task.wait(1)return end local x=sw()if not x then qb.target="-"if os.clock()-jw>10 then jw=os.clock()local m,x=0,0 for D,a in ipairs(Xb:GetChildren())do if a:IsA("Model")then m=m+1 if uw[a]and uw[a]>os.clock()then x=x+1 end end end v(f.AutoWalk and string.format("No matching mushroom (loaded in folder: %d, on cooldown: %d)",m,x)or"No matching mushroom within reach (Auto Walk is off)")end task.wait(1)return end local D=x.prompt.MaxActivationDistance local a=math.max(3,math.min(D-3,7))qb.target=x.model.Name qb.targetModel=x.model v(string.format("%s %s (rarity %s)",f.AutoWalk and"Heading to"or"Target (no walking)",x.model.Name,x.rarity and ib(x.rarity)or"unknown"))local X if f.AutoWalk then local D,y=bb()local u=y and((x.base.Position-y.Position)).Magnitude or 0 local i=((m.WalkSpeed and m.WalkSpeed>0))and m.WalkSpeed or 16 local K=math.clamp((u/i)*1.6+8,f.WalkTimeout,120)local p,S=yw(x.base.Position,a,K)X=S end local y,u=bb()if not mb then return end if not u or not x.model.Parent or((u.Position-x.base.Position)).Magnitude>D then pw(x.model)v(string.format("Could not reach %s (%s), %.0f studs left, skipping it for %.0f s",x.model.Name,tostring(X or"too far"),u and((u.Position-x.base.Position)).Magnitude or-1,uw[x.model]-os.clock()))return end local i=os.clock()if not Ow(x.prompt)then v("Server did not respond to the trigger for "..(x.model.Name..(((qb.toastAt>=i-.2)and(" | toast: "..tostring(qb.toast))or""))))uw[x.model]=os.clock()+30 if not x.rarity then iw[x.sp]=os.clock()+300 v("Species "..(x.sp.." skipped for 5 minutes (its rarity is probably above what the knife can pick)"))else Bw=Bw+1 end return end Bw=0 qb.curModel=x.model local K=Iw(qb.event,i)if not K then v("Harvest did not finish for "..x.model.Name)uw[x.model]=os.clock()+30 end kb(function()local m=bb()return m and m.WalkSpeed>0 end,2)task.wait(.2)end)if not m then v("ERROR: "..tostring(x))task.wait(1)end if Bw>=6 then Bw=0 kw("6 triggers failed in a row (server refuses). Stopping.")end task.wait(.1)end qb.target="-"v("Finished. Total harvests: "..(qb.harvested..(" (perfect: "..(qb.perfect..")"))))Db=false end local function ow()if mb then return end mb=true xb=xb+1 local m=xb task.spawn(ww,m)end L.onClose=function()mb=false xb=xb+1 if gb then gb:Disconnect()end if Zb then Zb:Disconnect()end if L.afkConn then L.afkConn:Disconnect()L.afkConn=nil end v("UNLOAD")end;(getgenv()).StopFarm=function()L.unload()end L.Status=L.paragraph("Mushrooming","Waiting...")local Ew=L.group()local function Rw(m)if L.afkConn then L.afkConn:Disconnect()L.afkConn=nil end if m then L.afkConn=S.Idled:Connect(function()pcall(function()local m=game:GetService("VirtualUser")m:CaptureController()m:ClickButton2(Vector2.new())end)v("Anti AFK: fake activity sent")end)end end local function Nw(m)return function(x)L.State[m]=x if m=="AutoFarm"then if x then ow()else if mb then v("Auto farm OFF")end mb=false end elseif m=="AutoWalk"then f.AutoWalk=x elseif m=="AntiAfk"then Rw(x)elseif m=="InstantCut"then f.InstantCut=x f.AutoTune=x qb.directBad=0 elseif m=="AutoSell"then f.AutoSell=x elseif m=="AutoWash"then f.AutoWash=x end end end L.toggle(Ew,"Auto Farm","AutoFarm",Nw("AutoFarm"),{persist=false})L.toggle(Ew,"Auto Walk","AutoWalk",Nw("AutoWalk"),{default=true})L.toggle(Ew,"Auto Cut","InstantCut",Nw("InstantCut"),{default=true})L.toggle(Ew,"Auto Sell","AutoSell",Nw("AutoSell"),{default=true})L.toggle(Ew,"Auto Wash","AutoWash",Nw("AutoWash"),{default=true})L.toggle(Ew,"Anti AFK","AntiAfk",Nw("AntiAfk"),{default=true})L.button(Ew,"Set Merchant",Ub)L.button(Ew,"Set Wash Spot",Lb)L.paragraph("Filter Rarity","Only rarities that are switched on get picked. The knife limit still applies. Species with an unknown rarity are tried once to learn it.")local nw=L.group()for m,x in ipairs(e)do local D=(x:sub(1,1)):upper()..x:sub(2)L.toggle(nw,D,"R_"..x,function(D)f.RarityOn[m]=D L.State["R_"..x]=D end,{default=true})end L.slider("Input Latency","InputLatency",0,.2,.01,.05,"s",function(m)f.InputLatency=m end)task.spawn(function()while U do local m=qb.harvested>0 and math.floor((qb.perfect/qb.harvested)*100+.5)or 0 L.Status:Set({Title="Mushrooming - "..((mb and"FARMING"or"IDLE")),Content=string.format("Knife: %s (max %s)\nBag: %d/%d   Harvest: %d   Perfect: %d (%d%%)\nTarget: %s\nLatency: %.3f   Auto Cut: %s   Auto Walk: %s",tostring(qb.tool),ib(vb()),qb.invCount,qb.capacity,qb.harvested,qb.perfect,m,qb.target,f.InputLatency,f.InstantCut and"ON"or"OFF",f.AutoWalk and"ON"or"OFF")})task.wait(.5)end end)v("UI ready. Switch on the Auto Farm toggle to start.")return L
+    return api
+end
+
+-- Group (2-column grid)
+function L.group()
+    local frame = Instance.new("Frame")
+    frame.Size = UDim2.new(1, 0, 0, 0)
+    frame.AutomaticSize = Enum.AutomaticSize.Y
+    frame.BackgroundTransparency = 1
+    frame.LayoutOrder = V()
+    frame.Parent = M
+
+    local grid = Instance.new("UIGridLayout")
+    grid.CellSize = UDim2.new(0.5, -4, 0, 28)
+    grid.CellPadding = UDim2.fromOffset(8, 6)
+    grid.SortOrder = Enum.SortOrder.LayoutOrder
+    grid.Parent = frame
+    return frame
+end
+
+-- Modern button with icon support
+local function makeBtn(parent, text)
+    local btn = Instance.new("TextButton")
+    btn.BackgroundColor3 = c3
+    btn.BorderSizePixel = 0
+    btn.AutoButtonColor = false
+    btn.Font = Enum.Font.GothamBold
+    btn.TextSize = 11
+    btn.TextColor3 = z
+    btn.Text = text
+    btn.LayoutOrder = V()
+    k(btn, 7)
+    btn.Parent = parent
+
+    -- hover effect
+    btn.MouseEnter:Connect(function()
+        btn.BackgroundColor3 = Color3.fromRGB(55, 55, 65)
+    end)
+    btn.MouseLeave:Connect(function()
+        if btn:GetAttribute("On") then
+            btn.BackgroundColor3 = I
+            btn.TextColor3 = c
+        else
+            btn.BackgroundColor3 = c3
+            btn.TextColor3 = z
+        end
+    end)
+    return btn
+end
+
+function L.button(parent, text, callback)
+    local btn = makeBtn(parent, text)
+    btn.MouseButton1Click:Connect(function()
+        pcall(callback)
+    end)
+    return btn
+end
+
+function L.toggle(parent, text, key, callback, opts)
+    opts = opts or {}
+    local persist = opts.persist ~= false
+    local state
+    if persist then
+        state = Q[key]
+        if state == nil then state = opts.default == true end
+    else
+        state = false
+    end
+
+    local btn = makeBtn(parent, text)
+    local function refresh()
+        if state then
+            btn.BackgroundColor3 = I
+            btn.TextColor3 = c
+            btn:SetAttribute("On", true)
+        else
+            btn.BackgroundColor3 = c3
+            btn.TextColor3 = z
+            btn:SetAttribute("On", false)
+        end
+    end
+    local function set(v)
+        state = v and true or false
+        if persist then Q[key] = state; q() end
+        refresh()
+        pcall(callback, state)
+    end
+    btn.MouseButton1Click:Connect(function() set(not state) end)
+    L.setters[key] = set
+    refresh()
+    pcall(callback, state)
+    return btn
+end
+
+function L.slider(title, key, minV, maxV, step, default, unit, callback)
+    local val = math.clamp(tonumber(Q[key]) or default, minV, maxV)
+    local card = Instance.new("Frame")
+    card.Size = UDim2.new(1, 0, 0, 42)
+    card.BackgroundColor3 = c2
+    card.BorderSizePixel = 0
+    card.LayoutOrder = V()
+    k(card, 8)
+    card.Parent = M
+    B(card, 8)
+
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(1, 0, 0, 14)
+    label.BackgroundTransparency = 1
+    label.Font = Enum.Font.GothamMedium
+    label.TextSize = 11
+    label.TextColor3 = z
+    label.TextXAlignment = Enum.TextXAlignment.Left
+    label.Parent = card
+
+    local track = Instance.new("Frame")
+    track.Size = UDim2.new(1, 0, 0, 6)
+    track.Position = UDim2.new(0, 0, 0, 22)
+    track.BackgroundColor3 = Color3.fromRGB(50, 50, 58)
+    track.BorderSizePixel = 0
+    k(track, 3)
+    track.Parent = card
+
+    local fill = Instance.new("Frame")
+    fill.BackgroundColor3 = I
+    fill.BorderSizePixel = 0
+    fill.Size = UDim2.new(0, 0, 1, 0)
+    k(fill, 3)
+    fill.Parent = track
+
+    local function update()
+        local txt = step < 0.1 and string.format("%.2f", val) or (step < 1 and string.format("%.1f", val) or tostring(val))
+        label.Text = title .. "  ·  " .. txt .. " " .. (unit or "")
+        fill.Size = UDim2.new((val - minV) / (maxV - minV), 0, 1, 0)
+    end
+
+    local dragging = false
+    local function onMove(input)
+        local rel = math.clamp((input.Position.X - track.AbsolutePosition.X) / math.max(track.AbsoluteSize.X, 1), 0, 1)
+        local newVal = math.floor((minV + (maxV - minV) * rel) / step + 0.5) * step
+        newVal = tonumber(string.format("%.3f", math.clamp(newVal, minV, maxV)))
+        if newVal ~= val then
+            val = newVal
+            Q[key] = val
+            update()
+            pcall(callback, val)
+        end
+    end
+
+    track.InputBegan:Connect(function(inp)
+        if j(inp) then
+            dragging = true
+            onMove(inp)
+        end
+    end)
+    t(D.InputChanged:Connect(function(inp)
+        if dragging and (inp.UserInputType == Enum.UserInputType.MouseMovement or inp.UserInputType == Enum.UserInputType.Touch) then
+            onMove(inp)
+        end
+    end))
+    t(D.InputEnded:Connect(function(inp)
+        if dragging and j(inp) then
+            dragging = false
+            q()
+        end
+    end))
+
+    update()
+    pcall(callback, val)
+end
+
+-- Minimize logic
+local minimized = false
+r.MouseButton1Click:Connect(function()
+    minimized = not minimized
+    M.Visible = not minimized
+    R.Visible = not minimized
+    w.Size = minimized and UDim2.fromOffset(G, Z) or UDim2.fromOffset(G, g)
+end)
+
+-- Toggle UI with LeftAlt
+t(D.InputBegan:Connect(function(inp)
+    if inp.KeyCode == Enum.KeyCode.LeftAlt then
+        w.Visible = not w.Visible
+    end
+end))
+
+-- Drag
+do
+    local dragStart, startPos
+    E.InputBegan:Connect(function(inp)
+        if j(inp) then
+            dragStart = inp.Position
+            startPos = w.Position
+        end
+    end)
+    t(D.InputChanged:Connect(function(inp)
+        if dragStart and (inp.UserInputType == Enum.UserInputType.MouseMovement or inp.UserInputType == Enum.UserInputType.Touch) then
+            local delta = inp.Position - dragStart
+            w.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+        end
+    end))
+    t(D.InputEnded:Connect(function(inp)
+        if j(inp) then dragStart = nil end
+    end))
+end
+
+function L.unload()
+    if not U then return end
+    U = false
+    for _, conn in ipairs(b) do pcall(function() conn:Disconnect() end) end
+    if L.onClose then pcall(L.onClose) end
+    pcall(function() P:Destroy() end)
+end
+d.MouseButton1Click:Connect(L.unload)
+
+local e={"common","uncommon","rare","epic";"legendary";"mythic","secret","celestial","ancestral"}local Y={RustyKnife=2,PocketKnife=3;ForagersKnife=3;BoneKnife=4;SilverSickle=4;MycologistScalpel=5,MoonsilverBlade=6;SporebloomKnife=7;GlimmerstoneKnife=7;HumstoneKnife=8}local f={MaxRange=math.huge,SkipNames={};MinRarity="common";MaxRarity="auto";RarityWeight=20,WalkTimeout=14;NoProgressTimeout=7,AgentRadius=3.0;MaxReplans=12,MaxHop=4.2;PressKey=Enum.KeyCode.E,InputLatency=.04,AimTimeout=6;AutoSell=true,AutoWash=true;AutoWalk=true;RarityOn={};AutoTune=true,InstantCut=true;MerchantPos=nil;WashPos=nil}for m=1,#e,1 do f.RarityOn[m]=true end local mb=false local xb,Db=0,false local ab=(X:WaitForChild("Remotes")):WaitForChild("Net")local Xb=workspace:WaitForChild("Mushrooms")local yb={}for m,x in ipairs(e)do yb[x]=m end local ub=yb[(tostring(f.MinRarity)):lower()]or 1 local function ib(m)return e[m]or("rarity"..tostring(m))end local Kb="autofarm_species.json"local pb="autofarm_merchant.json"local Sb={}pcall(function()if isfile and isfile(Kb)then local m=a:JSONDecode(readfile(Kb))if type(m)=="table"then Sb=m end end end)local function sb()pcall(function()writefile(Kb,a:JSONEncode(Sb))end)end local Ob="autofarm_wash.json"local function Cb(m)pcall(function()writefile(Ob,a:JSONEncode({m.X;m.Y,m.Z}))end)end pcall(function()if isfile and isfile(Ob)then local m=a:JSONDecode(readfile(Ob))if type(m)=="table"and#m==3 then f.WashPos=Vector3.new(m[1],m[2],m[3])end end end)local function Jb(m)local x={}for m,D in ipairs(m)do local a=type(D)x[#x+1]=((a=="string"or a=="number"or a=="boolean"))and tostring(D)or("<"..(a..">"))end return table.concat(x,",")end local function Qb(m)pcall(function()writefile(pb,a:JSONEncode({m.X,m.Y;m.Z}))end)end pcall(function()if isfile and isfile(pb)then local m=a:JSONDecode(readfile(pb))if type(m)=="table"and#m==3 then f.MerchantPos=Vector3.new(m[1],m[2],m[3])end end end)local qb={event=nil,eventAt=0,caughtAt=0,invCount=0,capacity=12,harvested=0;perfect=0;pack=nil,tool=nil;toast=nil;toastAt=0,washDone={};washClientDone={};washAuto=false,lastDmg=0,target="-"}local function Hb()local function m(m)if not m then return nil end for m,x in ipairs(m:GetChildren())do if x:IsA("Tool")and x:GetAttribute("Knife")then return x.Name end end end return m(S.Character)or m(S:FindFirstChildOfClass("Backpack"))end qb.tool=Hb()local function vb()if f.MaxRarity~="auto"then return yb[(tostring(f.MaxRarity)):lower()]or#e end return Y[qb.tool or""]or#e end local Ib={.05;.02;.08;.0,.11;.035,.065;.095}local zb,cb=1,0 local function Gb(m)if not((f.AutoTune and f.InstantCut))then return end if qb.hitch then return end if m>0 then cb=cb+1 if cb>=2 then cb=0 zb=zb%#Ib+1 f.InputLatency=Ib[zb]v(string.format("AutoTune: InputLatency -> %.3f",f.InputLatency))end else cb=0 end end local gb=ab.OnClientEvent:Connect(function(m,x)if type(m)=="string"and(m:lower()):find("wash")then qb.washAt=os.clock()end if m=="wash"and(type(x)=="table"and(qb.washAuto and(x.id and not qb.washDone[x.id])))then qb.washDone[x.id]=true local m=x.id local D=5+math.random()*1.5 task.delay(D,function()if qb.washAuto and not qb.washClientDone[m]then pcall(function()ab:FireServer("wash_done",m)end)end end)end if m=="harvest"and type(x)=="table"then qb.event=x qb.eventAt=os.clock()local m,D=x.sp or x.name,tonumber(x.rarity)if m and D then local x=Sb[m]if not x or D>x then Sb[m]=D v(string.format("Species %s = rarity %d (%s)",m,D,ib(D)))sb()end end elseif m=="caught"and type(x)=="table"then qb.caughtAt=os.clock()qb.harvested=qb.harvested+1 local m=tonumber(x.dmg)or 0 qb.lastDmg=m if m==0 then qb.perfect=qb.perfect+1 end v(string.format("Caught #%d: %s %skg dmg=%s %s",qb.harvested,tostring(x.sp),tostring(x.kg),tostring(x.dmg),m==0 and"PERFECT"or"IMPERFECT"))Gb(m)elseif m=="sync"and type(x)=="table"then if type(x.inv)=="table"then qb.invCount=#x.inv end if type(x.capacity)=="number"then qb.capacity=x.capacity end if x.pack~=qb.pack or x.tool~=qb.tool then qb.pack,qb.tool=x.pack,x.tool v(string.format("Equipment: knife=%s backpack=%s capacity=%s maxRarity=%s",tostring(x.tool),tostring(x.pack),tostring(x.capacity),ib(vb())))end elseif m=="toast"then qb.toast,qb.toastAt=tostring(x),os.clock()v("Toast: "..tostring(x))end end)local Zb=i.PromptTriggered:Connect(function(m)local x=((m.ObjectText or"")):lower()local D=(x..(" "..(((m.ActionText or"")):lower()..(" "..((m.Parent and m.Parent.Name or"")):lower()))))if D:find("wash")and(m.Parent and m.Parent:IsA("BasePart"))then f.WashPos=m.Parent.Position Cb(f.WashPos)v("Wash station position learned: "..tostring(f.WashPos))end if x:find("merchant")and(not x:find("scale")and(m.Parent and m.Parent:IsA("BasePart")))then f.MerchantPos=m.Parent.Position Qb(f.MerchantPos)v("Merchant position learned: "..tostring(f.MerchantPos))end end)local Tb=(getgenv()).__MushSpy pcall(function()if not((hookmetamethod and getnamecallmethod))then return end if not Tb then Tb={};(getgenv()).__MushSpy=Tb local m m=hookmetamethod(game,"__namecall",function(x,...)if Tb.net and(x==Tb.net and(getnamecallmethod()=="FireServer"and(not((checkcaller and checkcaller()))and Tb.cb)))then pcall(Tb.cb,{...})end return m(x,...)end)end Tb.net=ab Tb.cb=function(m)if m[1]=="harvest_done"and(type(m[2])=="number"and not qb.idSrc)then local x,D,a=qb.event,qb.curModel,nil if type(x)=="table"then for x,D in pairs(x)do if D==m[2]then a={kind="event",key=x}break end end end if not a and D then for x,D in pairs(D:GetAttributes())do if D==m[2]then a={kind="attr";key=x}break end end if not a and tonumber(D.Name)==m[2]then a={kind="name"}end end if a then qb.idSrc=a task.defer(function()v("Harvest id learned ("..(a.kind..") -> Auto Cut can send the perfect result directly"))end)end end if m[1]=="wash_done"then qb.washClientDone[m[2]]=true end end end)local function Lb()local m=S.Character local x=m and m:FindFirstChild("HumanoidRootPart")if x then f.WashPos=x.Position Cb(x.Position)v("WashPos saved: "..tostring(x.Position))end end;(getgenv()).SetWash=Lb local function Ub()local m=S.Character local x=m and m:FindFirstChild("HumanoidRootPart")if x then f.MerchantPos=x.Position Qb(x.Position)v("MerchantPos saved: "..tostring(x.Position))end end;(getgenv()).SetMerchant=Ub local function bb()local m=S.Character return m and m:FindFirstChildOfClass("Humanoid"),m and m:FindFirstChild("HumanoidRootPart")end local function tb(m,x)return(Vector3.new(m.X-x.X,0,m.Z-x.Z)).Magnitude end local function kb(m,x)local D=os.clock()while mb and os.clock()-D<x do if m()then return true end task.wait(.05)end return m()end local function Bb(m)pcall(function()p:SendKeyEvent(true,m,false,game)task.wait(.05)p:SendKeyEvent(false,m,false,game)end)end local function lb(m)local x=S:FindFirstChildOfClass("PlayerGui")local D=m while D and D~=x do if D:IsA("GuiObject")and not D.Visible then return false end if D:IsA("ScreenGui")and not D.Enabled then return false end D=D.Parent end return true end local function jb(m)local x=false if firesignal then x=pcall(function()firesignal(m.Activated)firesignal(m.MouseButton1Click)end)end if not x then local x=u:GetGuiInset()local D=m.AbsolutePosition.X+m.AbsoluteSize.X/2 local a=(m.AbsolutePosition.Y+m.AbsoluteSize.Y/2)+x.Y pcall(function()p:SendMouseButtonEvent(D,a,0,true,game,1)task.wait(.05)p:SendMouseButtonEvent(D,a,0,false,game,1)end)end end local function Pb(m)local x=S:FindFirstChildOfClass("PlayerGui")if not x then return nil end for x,D in ipairs(x:GetDescendants())do if D:IsA("GuiButton")and(lb(D)and m(D))then return D end end return nil end local wb=RaycastParams.new()wb.FilterType=Enum.RaycastFilterType.Exclude pcall(function()wb.RespectCanCollide=true end)local function ob()local x={Xb}local D=workspace:FindFirstChild("NPCs")if D then x[#x+1]=D end for m,D in ipairs(m:GetPlayers())do if D.Character then x[#x+1]=D.Character end end wb.FilterDescendantsInstances=x end local function Eb(m,x)return workspace:Raycast(m,x,wb)end local function Rb(m,x)local D=Vector3.new(x.X-m.X,0,x.Z-m.Z)if D.Magnitude<.01 then return nil end return D.Unit end local function Nb(m,x)local D=math.rad(x)local a,X=math.cos(D),math.sin(D)return Vector3.new(m.X*a-m.Z*X,0,m.X*X+m.Z*a)end local function nb(m,x)return x.Position.Y-((x.Size.Y/2+((m.HipHeight or 2))))end local function rb(m)local x=5 pcall(function()if m.UseJumpPower then x=m.JumpPower^2/((2*workspace.Gravity))else x=m.JumpHeight end end)return math.min(f.MaxHop,x*.85)end local function db(m,x,D,a)local X=nb(m,x)local y=Vector3.new(-D.Z,0,D.X)*1.3 for m,y in ipairs({Vector3.new(0,0,0);y,-y})do local u=Vector3.new(x.Position.X,X+1.2,x.Position.Z)+y local i=Eb(u,D*a)if i and i.Normal.Y<.6 then return i end end return nil end local Mb={.6;1.4;2.2;3.0;3.8}local function hb(m,x,D,a)local X=nb(m,x)local y,u=x.Position.X,x.Position.Z local i for m,x in ipairs(Mb)do local K=Eb(Vector3.new(y,X+x,u),D*a)if K and K.Normal.Y<.6 then i=K break end end if not i then return nil end local K=rb(m)if Eb(Vector3.new(y,(X+K)+1.2,u),D*((a+1)))then return nil end local p=Vector3.new(-D.Z,0,D.X)local S for m,x in ipairs({.3,.9,1.5})do for m,a in ipairs({0,.8,-0.8})do local y=(i.Position+D*x)+p*a local u=Eb(Vector3.new(y.X,(X+K)+3,y.Z),Vector3.new(0,-((K+3.5)),0))if u and((not S or u.Position.Y>S))then S=u.Position.Y end end end local s=S and(S-X)or 0 if s<.8 then s=((i.Position.Y-X))+.5 end if s<.8 or s>K then return nil end return s end local function Ab(m,x,D)local a=K:CreatePath({AgentRadius=D or f.AgentRadius;AgentHeight=5,AgentCanJump=true;AgentCanClimb=false,WaypointSpacing=2.5;Costs={Water=math.huge}})local X=pcall(function()a:ComputeAsync(m,x)end)if X and a.Status==Enum.PathStatus.Success then return a:GetWaypoints(),a end return nil,a end local Vb="autofarm_blocked.json"local Fb={}pcall(function()if isfile and isfile(Vb)then local m=a:JSONDecode(readfile(Vb))if type(m)=="table"then for m,x in ipairs(m)do if type(x)=="table"and#x==3 then Fb[#Fb+1]=Vector3.new(x[1],x[2],x[3])end end end end end)local function Wb()pcall(function()local m={}for x,D in ipairs(Fb)do m[#m+1]={D.X,D.Y;D.Z}end writefile(Vb,a:JSONEncode(m))end)end local function eb(m)for x,D in ipairs(Fb)do if tb(D,m)<4 and math.abs(D.Y-m.Y)<8 then return end end Fb[#Fb+1]=m if#Fb>80 then table.remove(Fb,1)end Wb()end;(getgenv()).ClearBlocked=function()Fb={}Wb()end local function Yb(m,x,D)local a,X=D.X-x.X,D.Z-x.Z local y=a*a+X*X local u=y>0 and math.clamp(((((m.X-x.X))*a+((m.Z-x.Z))*X))/y,0,1)or 0 local i,K=x.X+u*a,x.Z+u*X return math.sqrt(((m.X-i))^2+((m.Z-K))^2)end local function fb(m,x)for D,a in ipairs(Fb)do for D=1,#m,1 do local X=m[D].Position local y=m[D+1]and m[D+1].Position or X if math.abs(X.Y-a.Y)<8 and Yb(a,X,y)<x then return a end end end return nil end local function mw(m,x,D,a)local X=Rb(m,x)or Vector3.new(1,0,0)for y,u in ipairs({14;24;36})do for y,i in ipairs({90;-90;60;-60;120;-120})do local K=a+Nb(X,i)*u local p=Eb(Vector3.new(K.X,a.Y+40,K.Z),Vector3.new(0,-80,0))if p then local a=p.Position+Vector3.new(0,2,0)local X=Ab(m,a,D)if X and not fb(X,5)then local m=Ab(a,x,D)if m and not fb(m,5)then local x={}for m,D in ipairs(X)do x[#x+1]=D end for D=2,#m,1 do x[#x+1]=m[D]end return x end end end end end return nil end local function xw(m,x)local D=Rb(x.Position,x.Position+x.CFrame.LookVector)or Vector3.new(0,0,-1)for a,X in ipairs({90;-90,135,-135;180})do local y=Nb(D,X)if not db(m,x,y,7)then m:MoveTo(x.Position+y*7)local D=os.clock()while mb and os.clock()-D<1.0 do task.wait(.1)end return true end end m.Jump=true return false end local function Dw(m,x,D,a,X,y)if X.steerDir and(y<X.steerUntil and not db(m,x,X.steerDir,3))then return x.Position+X.steerDir*5 end local u=((X.side or 1))>0 and{35;65,95;-35;-65;-95}or{-35,-65;-95,35;65;95}for a,u in ipairs(u)do local i=Nb(D,u)if not db(m,x,i,4.5)then X.side=u>0 and 1 or-1 X.steerDir,X.steerUntil=i,y+.8 return x.Position+i*5 end end X.steerDir,X.steerUntil=nil,0 m.Jump=true return x.Position-D*4 end local function aw(m,x,D,a)if#D<2 then return 0 end local X=x.Position local y=0 for u=#D,1,-1 do if not mb then return y end local i=D[u]if tb(X,i)>a or y>=5 then break end if tb(x.Position,i)>2 then m:MoveTo(i)local D=os.clock()while mb and(os.clock()-D<1.0 and tb(x.Position,i)>2)do task.wait(.1)end y=y+1 end end return y end local function Xw(m,x,D,a,X,y,u)for i=(#m>1 and 2 or 1),#m,1 do local K=m[i]if K.Action==Enum.PathWaypointAction.Jump then x.Jump=true end x:MoveTo(K.Position)local p=os.clock()local S,s,O=D.Position,os.clock(),0 while mb and os.clock()<X do if a()then return"arrived"end if y.v then return"blocked"end if u.isStalled()then return"stalled"end local m=os.clock()if tb(D.Position,K.Position)<3 then break end if m-p>6 then return"stuck"end local X=u.trail local i=X[#X]if not i or((D.Position-i)).Magnitude>=2 then X[#X+1]=D.Position if#X>60 then table.remove(X,1)end end local C=K.Position local J=Rb(D.Position,K.Position)if J then local a=u.noHopPos and(m<u.noHopUntil and tb(D.Position,u.noHopPos)<6)local X=(not a)and hb(x,D,J,3)or nil if X then if m-u.lastHop>.7 then if u.hopSpot and tb(D.Position,u.hopSpot)<3 then u.hopCount=u.hopCount+1 else u.hopSpot,u.hopCount=D.Position,1 end if u.hopCount>2 then u.noHopPos,u.noHopUntil,u.hopCount=u.hopSpot,m+25,0 eb(u.hopSpot)else x.Jump=true u.lastHop=m end end elseif db(x,D,J,3)then C=Dw(x,D,J,K.Position,u,m)end end x:MoveTo(C)if((D.Position-S)).Magnitude>.4 then S,s,O=D.Position,m,0 elseif m-s>.6 then O=O+1 if O>2 then return"stuck"end x.Jump=true s=m end task.wait(.1)end if os.clock()>=X then return"timeout"end end return a()and"arrived"or"done"end local function yw(m,x,D,a,X)local y,u=bb()if not y or not u then return false,"nochar"end ob()local i=os.clock()+D local K=a or{}local p,S=math.huge,os.clock()local function s()local D=tb(u.Position,m)if D<p-3 then p,S=D,os.clock()end return D<=x end local O={f.AgentRadius,2.5;1.8}local C=1 local J=0 local Q={trail=K,lastHop=0;hopCount=0;noHopUntil=0,steerUntil=0,side=1}local q=false Q.isStalled=function()return os.clock()-S>((X or f.NoProgressTimeout))end while mb and os.clock()<i do if s()then y:MoveTo(u.Position)return true end local D,a if q then q=false D,a=Ab(u.Position,m,5)end for x=C,#O,1 do if D then break end D,a=Ab(u.Position,m,O[x])if D then C=x break end end if not D then local X=math.max(x-1,2)for x=0,7,1 do D,a=Ab(u.Position,m+Nb(Vector3.new(1,0,0),x*45)*X,O[#O])if D then break end end end if not D then if tb(u.Position,m)<30 then D={{Position=m;Action=Enum.PathWaypointAction.Walk}}else return false,"nopath"end end if D and(a and#Fb>0)then local x=fb(D,5)if x then local X=mw(u.Position,m,O[C],x)if X then D,a=X,nil end end end local X={v=false}local p if a then p=a.Blocked:Connect(function()X.v=true end)end local S=Xw(D,y,u,s,i,X,Q)if p then p:Disconnect()end if S=="arrived"then y:MoveTo(u.Position)return true end if S=="stalled"then y:MoveTo(u.Position)return false,string.format("no progress, %.0f studs left",tb(u.Position,m))end J=J+1 if J>f.MaxReplans then y:MoveTo(u.Position)return false,"stuck"end if S=="stuck"then eb(u.Position)aw(y,u,K,6+J*2)if J>=3 then C=math.min(C+1,#O)else q=true end xw(y,u)end end y:MoveTo(u.Position)return s(),"timeout"end local uw,iw={},{}local Kw={}local function pw(m)Kw[m]=((Kw[m]or 0))+1 uw[m]=os.clock()+math.min(60*3^((Kw[m]-1)),900)end local Sw={}for m,x in ipairs(f.SkipNames)do Sw[x]=true end local function sw()local m,x=bb()if not x then return nil end local D=vb()local a,X for m,y in ipairs(Xb:GetChildren())do if y:IsA("Model")and(not Sw[y.Name]and not((uw[y]and uw[y]>os.clock())))then local m=y:GetAttribute("Sp")or y.Name if not((iw[m]and iw[m]>os.clock()))then local u=y:FindFirstChild("Base")local i=u and u:FindFirstChildOfClass("ProximityPrompt")if i and i.Enabled then local K=Sb[m]local p=((u.Position-x.Position)).Magnitude local S=f.AutoWalk and f.MaxRange or math.max(i.MaxActivationDistance-.5,1)if p<=S and not((K and((K<ub or K>D or f.RarityOn[K]==false))))then local x=p-((K or 0))*f.RarityWeight if not X or x<X then a,X={model=y,base=u;prompt=i,sp=m;rarity=K},x end end end end end end return a end local function Ow(m)local x=os.clock()if fireproximityprompt then pcall(fireproximityprompt,m)end if kb(function()return qb.eventAt>x end,1.5)then return true end Bb(Enum.KeyCode.E)return kb(function()return qb.eventAt>x end,1.5)end local function Cw()local m=S:FindFirstChildOfClass("PlayerGui")local x=m and m:FindFirstChild("MainUI")local D=x and x:FindFirstChild("Harvest")local a=D and D:FindFirstChild("Bar")if not a then return nil end local X=a:FindFirstChild("Zone")local y=X and X:FindFirstChild("Perfect")if not y then for m,x in ipairs(a:GetDescendants())do if x:IsA("GuiObject")and(x.Name:lower()):find("perfect")then y=x break end end end return{root=D,marker=a:FindFirstChild("Marker"),zone=X;perfect=y,title=D:FindFirstChild("Title")}end local function Jw(m)local x=m and(m.title and m.title.Text)or""return tonumber(x:match("Cut%s*(%d+)%s*/"))end local function Qw(m)local x=os.clock()local D,a,X,u while mb and(os.clock()-x<f.AimTimeout and qb.caughtAt<m)do local m=Cw()if m and(m.marker and m.zone)then local y=os.clock()local i=m.marker.AbsolutePosition.X+m.marker.AbsoluteSize.X/2 if D and y>a then local x=((i-D))/((y-a))local u=(m.zone.Parent and m.zone.Parent.AbsoluteSize.X)or 0 if u<=0 then u=556 end if math.abs(x)<=u*1.4 then if X and x*X<0 then X=x else X=X and(X*.5+x*.5)or x end end end local K=m.perfect or m.zone local p=K.AbsolutePosition.X+K.AbsoluteSize.X/2 local S=K.AbsoluteSize.X/2 if not m.perfect then S=S*.3 end if X and a then local m=math.max(y-a,.008)local D=((i+X*f.InputLatency))-p local K=D*X<0 local s,O=false,""local C=m>.04 and os.clock()-x<4 if C then u=nil elseif K and math.abs(D)<=(math.abs(X)*m)*1.2 then local m=math.min(math.abs(D)/math.abs(X),.04)local x=os.clock()+m while os.clock()<x do end s,O=true,"lead"elseif u and(u*D<=0 and math.abs(D)<=S*.9)then s,O=true,"cross"end if s then if m>.035 then qb.hitch=true end Bb(f.PressKey)return true end u=D end D,a=i,y end y.Heartbeat:Wait()end return false end local function qw()local m,x,D=qb.idSrc,qb.event,qb.curModel if not m then return nil end if m.kind=="event"then return type(x)=="table"and x[m.key]or nil end if m.kind=="attr"then return D and D:GetAttribute(m.key)or nil end return D and tonumber(D.Name)or nil end local function Hw(m,x,D)if((qb.directBad or 0))>=2 then return false end local a=qw()if not a then return false end task.wait(.4+math.random()*.5)local X={}for m=1,D,1 do X[m]=1 end pcall(function()ab:FireServer("harvest_done",a,X)end)local y=kb(function()return qb.caughtAt>=x end,2.5)if y and qb.lastDmg==0 then qb.directBad=0 return true end qb.directBad=((qb.directBad or 0))+1 if qb.directBad>=2 then v("Direct cut did not work -> using perfect timing instead")end return y end local function vw(m,x)for D=1,x,1 do if not mb or qb.caughtAt>=m then break end if not Qw(m)and qb.caughtAt<m then Bb(f.PressKey)end if D<x then kb(function()if qb.caughtAt>=m then return true end local x=Jw(Cw())return x~=nil and x>D end,3)end end for x=1,3,1 do if kb(function()return qb.caughtAt>=m end,2.5)then return true end if not mb then return false end Bb(f.PressKey)end return qb.caughtAt>=m end local function Iw(m,x)local D=tonumber(m.cuts)or 1 v(string.format("Harvest %s | rarity=%s cuts=%d",tostring(m.name),ib(tonumber(m.rarity)),D))qb.hitch=false task.wait(.25)if not f.InstantCut then return kb(function()return qb.caughtAt>=x end,30)end if Hw(m,x,D)then return true end return vw(x,D)end local function zw()local function m(m)local x=((((m.ObjectText or""))..(" "..((m.ActionText or""))))):lower()local D=m:FindFirstAncestorOfClass("Model")local a=((D and D.Name or"")):lower()if((x:find("merchant")or a:find("merchant")or x:find("trader")or a:find("trader")))and(not x:find("scale")and not a:find("scale"))then local x=m.Parent if x and x:IsA("BasePart")then return{prompt=m;pos=x.Position}end end end local x=workspace:FindFirstChild("NPCs")if x then for x,D in ipairs(x:GetDescendants())do if D:IsA("ProximityPrompt")then local x=m(D)if x then return x end end end end for x,D in ipairs(workspace:GetDescendants())do if D:IsA("ProximityPrompt")and not D:IsDescendantOf(Xb)then local x=m(D)if x then return x end end end return nil end local function cw()local m=Pb(function(m)return m.Name=="Close"and(not m:FindFirstAncestor("Harvest")and not m:IsDescendantOf(P))end)if m then jb(m)end end local function Gw(m,x)local D,a=bb()if not D or not a then return end if#m<2 then v("Entry trail to the merchant is empty, skipping the trail exit")return end local X=0 for y=#m,1,-1 do if not mb then return end local u=m[y]if tb(a.Position,x)>24 then break end D:MoveTo(u)local i=os.clock()while mb and(os.clock()-i<1.6 and tb(a.Position,u)>2.5)do task.wait(.1)end X=X+1 end v(string.format("Left the merchant area along the entry trail (%d points)",X))end local function gw()local m,x=bb()local D,a for m,X in ipairs(workspace:GetDescendants())do if X:IsA("ProximityPrompt")and not X:IsDescendantOf(Xb)then local m=X:FindFirstAncestorOfClass("Model")local y=((((X.ObjectText or""))..(" "..(((X.ActionText or""))..(" "..(((m and m.Name or""))..(" "..((X.Parent and X.Parent.Name or""))))))))):lower()local u=X.Parent if y:find("wash")and(u and u:IsA("BasePart"))then local m=x and((u.Position-x.Position)).Magnitude or 0 if not a or m<a then D,a={prompt=X;pos=u.Position},m end end end end return D end local function Zw()local m=S:FindFirstChildOfClass("PlayerGui")if not m then return false end for m,x in ipairs(m:GetDescendants())do if x:IsA("TextLabel")and((x.Text:lower()):find("scrub the mud")and lb(x))then return true end end return false end local function Tw()for m=1,3,1 do if not Zw()then break end Bb(Enum.KeyCode.Escape)task.wait(.7)end end local Lw=false local function Uw()qb.washDone,qb.washClientDone,qb.washAuto={},{},false local m=gw()local x=(m and m.pos)or f.WashPos if not x then if not Lw then Lw=true v("Wash station unknown -> selling without washing. Wash once by hand (the bot learns the station), or stand at it and press Set Wash Spot.")end return false end if m then f.WashPos=m.pos Cb(m.pos)end qb.target="Wash"do local m,D=bb()if f.AutoWalk then v("Going to the wash station first")local m={}local a={}for m=0,7,1 do a[#a+1]=x+Nb(Vector3.new(1,0,0),m*45)*5 end if D then table.sort(a,function(m,x)return tb(D.Position,m)<tb(D.Position,x)end)end local X={x;a[1],a[#a];a[4]}for D=1,4,1 do local a,y=yw(X[D],D==1 and 5 or 3,45,m,12)local u,i=bb()if i and((i.Position-x)).Magnitude<=12 then break end if not mb then return false end v(string.format("Wash station approach attempt %d failed (%s)",D,tostring(y)))end end local a,X=bb()if not X or((X.Position-x)).Magnitude>14 then v("Could not reach the wash station, selling without washing")return false end end local D=os.clock()local function a()return qb.toastAt>=D and((tostring(qb.toast)):lower()):find("washed")~=nil end qb.washAuto=true task.spawn(function()local m=0 while qb.washAuto and mb do local x=workspace.CurrentCamera local D=x and x.ViewportSize or Vector2.new(1280,720)local a=u:GetGuiInset()m=m+.11 local X=D.X*.42+(math.sin(m*1.7)*D.X)*.17 local i=(D.Y*.38+(math.sin(m*2.3+1)*D.Y)*.2)+a.Y pcall(function()p:SendMouseMoveEvent(X,i,game)end)y.Heartbeat:Wait()end end)for x=1,2,1 do m=gw()or m if m and(m.prompt and fireproximityprompt)then pcall(fireproximityprompt,m.prompt)end if kb(function()return((qb.washAt or 0))>=D or a()end,3)then break end v("Wash minigame did not open, pressing the prompt again")end kb(a,120)qb.washAuto=false task.wait(.4)Tw()if not a()then v("Washing: no \'Washed\' toast, selling anyway")return false end local X=tonumber((tostring(qb.toast)):match("[Ww]ashed%s+(%d+)"))or 0 v(string.format("Washed %d mushrooms before selling",X))task.wait(.8)return X>0 end local function bw()if f.AutoWash then local m,x=pcall(Uw)if not m then v("ERROR washAll: "..tostring(x))end if not mb then return false end end v("Backpack full -> looking for the merchant")qb.target="Merchant"local m=zw()local x=(m and m.pos)or f.MerchantPos if not x then v("Merchant position unknown. Stand next to the merchant and press Set Merchant.")return false end if m then f.MerchantPos=m.pos Qb(m.pos)end local D local a={}if f.AutoWalk then local m,X=bb()local y={x}local u={}for m=0,7,1 do u[#u+1]=x+Nb(Vector3.new(1,0,0),m*45)*6 end if X then table.sort(u,function(m,x)return tb(X.Position,m)<tb(X.Position,x)end)end for m,x in ipairs(u)do y[#y+1]=x end for m=1,4,1 do local X,u=yw(y[m],m==1 and 6 or 4,50,a,25)D=u local i,K=bb()if K and((K.Position-x)).Magnitude<=16 then break end if not mb then return false end v(string.format("Merchant approach attempt %d failed (%s)",m,tostring(u)))end end local X,y=bb()if not y or((y.Position-x)).Magnitude>16 then v("Could not reach the merchant ("..(tostring(D)..")"))return false end m=zw()or m local u=qb.invCount if m and(m.prompt and fireproximityprompt)then pcall(fireproximityprompt,m.prompt)task.wait(1)end local function i()return qb.invCount<u end ab:FireServer("funnel","talkMerchant")task.wait(.4)ab:FireServer("sell","all")local K=kb(i,4)if not K then local m=Pb(function(m)return m:IsA("TextButton")and(not m:IsDescendantOf(P)and(m.Text:lower()):find("sell")~=nil)end)if m then v("Remote was not enough, clicking the button: "..m:GetFullName())jb(m)K=kb(i,4)end end task.wait(.5)cw()kb(function()local m=bb()return m and m.WalkSpeed>0 end,2)if f.AutoWalk then local m,D=pcall(Gw,a,x)if not m then v("ERROR retrace: "..tostring(D))end end v(K and string.format("Sold (bag is now %d/%d)",qb.invCount,qb.capacity)or"Sell failed. Sell manually once, then send the log.")return K end local function tw()local m=zw()local x=(m and m.pos)or f.MerchantPos local D,a=bb()return x~=nil and(a~=nil and((a.Position-x)).Magnitude<=16)end local function kw(m)if m then v(m)end mb=false if L.setters.AutoFarm then L.setters.AutoFarm(false)end end local Bw,lw=0,0 local jw,Pw=0,0 local function ww(m)while Db do task.wait(.1)end Db=true local x=0 for m in pairs(Sb)do x=x+1 end v(string.format("START | knife=%s maxRarity=%s | known species=%d | AutoCut=%s AutoSell=%s AutoWash=%s",tostring(qb.tool),ib(vb()),x,tostring(f.InstantCut),tostring(f.AutoSell),tostring(f.AutoWash)))while mb and xb==m do local m,x=pcall(function()if qb.invCount>=qb.capacity then if f.AutoSell then if not f.AutoWalk and not tw()then if os.clock()-Pw>15 then Pw=os.clock()v("Bag full, Auto Walk is off -> get within 16 studs of the merchant or sell manually. Farm is waiting.")end task.wait(1)return end if bw()then lw=0 else lw=lw+1 if lw>=2 then kw("Selling failed twice in a row. Stopping.")end end else if os.clock()-Pw>15 then Pw=os.clock()v(string.format("Backpack full (%d/%d), Auto Sell is off. Sell manually, farming resumes automatically.",qb.invCount,qb.capacity))end task.wait(1)end return end local m=bb()if not m or m.Health<=0 then task.wait(1)return end local x=sw()if not x then qb.target="-"if os.clock()-jw>10 then jw=os.clock()local m,x=0,0 for D,a in ipairs(Xb:GetChildren())do if a:IsA("Model")then m=m+1 if uw[a]and uw[a]>os.clock()then x=x+1 end end end v(f.AutoWalk and string.format("No matching mushroom (loaded in folder: %d, on cooldown: %d)",m,x)or"No matching mushroom within reach (Auto Walk is off)")end task.wait(1)return end local D=x.prompt.MaxActivationDistance local a=math.max(3,math.min(D-3,7))qb.target=x.model.Name qb.targetModel=x.model v(string.format("%s %s (rarity %s)",f.AutoWalk and"Heading to"or"Target (no walking)",x.model.Name,x.rarity and ib(x.rarity)or"unknown"))local X if f.AutoWalk then local D,y=bb()local u=y and((x.base.Position-y.Position)).Magnitude or 0 local i=((m.WalkSpeed and m.WalkSpeed>0))and m.WalkSpeed or 16 local K=math.clamp((u/i)*1.6+8,f.WalkTimeout,120)local p,S=yw(x.base.Position,a,K)X=S end local y,u=bb()if not mb then return end if not u or not x.model.Parent or((u.Position-x.base.Position)).Magnitude>D then pw(x.model)v(string.format("Could not reach %s (%s), %.0f studs left, skipping it for %.0f s",x.model.Name,tostring(X or"too far"),u and((u.Position-x.base.Position)).Magnitude or-1,uw[x.model]-os.clock()))return end local i=os.clock()if not Ow(x.prompt)then v("Server did not respond to the trigger for "..(x.model.Name..(((qb.toastAt>=i-.2)and(" | toast: "..tostring(qb.toast))or""))))uw[x.model]=os.clock()+30 if not x.rarity then iw[x.sp]=os.clock()+300 v("Species "..(x.sp.." skipped for 5 minutes (its rarity is probably above what the knife can pick)"))else Bw=Bw+1 end return end Bw=0 qb.curModel=x.model local K=Iw(qb.event,i)if not K then v("Harvest did not finish for "..x.model.Name)uw[x.model]=os.clock()+30 end kb(function()local m=bb()return m and m.WalkSpeed>0 end,2)task.wait(.2)end)if not m then v("ERROR: "..tostring(x))task.wait(1)end if Bw>=6 then Bw=0 kw("6 triggers failed in a row (server refuses). Stopping.")end task.wait(.1)end qb.target="-"v("Finished. Total harvests: "..(qb.harvested..(" (perfect: "..(qb.perfect..")"))))Db=false end local function ow()if mb then return end mb=true xb=xb+1 local m=xb task.spawn(ww,m)end L.onClose=function()mb=false xb=xb+1 if gb then gb:Disconnect()end if Zb then Zb:Disconnect()end if L.afkConn then L.afkConn:Disconnect()L.afkConn=nil end v("UNLOAD")end;(getgenv()).StopFarm=function()L.unload()end L.Status=L.paragraph("Mushrooming","Waiting...")local Ew=L.group()local function Rw(m)if L.afkConn then L.afkConn:Disconnect()L.afkConn=nil end if m then L.afkConn=S.Idled:Connect(function()pcall(function()local m=game:GetService("VirtualUser")m:CaptureController()m:ClickButton2(Vector2.new())end)v("Anti AFK: fake activity sent")end)end end local function Nw(m)return function(x)L.State[m]=x if m=="AutoFarm"then if x then ow()else if mb then v("Auto farm OFF")end mb=false end elseif m=="AutoWalk"then f.AutoWalk=x elseif m=="AntiAfk"then Rw(x)elseif m=="InstantCut"then f.InstantCut=x f.AutoTune=x qb.directBad=0 elseif m=="AutoSell"then f.AutoSell=x elseif m=="AutoWash"then f.AutoWash=x end end end L.toggle(Ew,"▶ Auto Farm","AutoFarm",Nw("AutoFarm"),{persist=false})L.toggle(Ew,"🚶 Auto Walk","AutoWalk",Nw("AutoWalk"),{default=true})L.toggle(Ew,"⚡ Auto Cut","InstantCut",Nw("InstantCut"),{default=true})L.toggle(Ew,"💰 Auto Sell","AutoSell",Nw("AutoSell"),{default=true})L.toggle(Ew,"🧼 Auto Wash","AutoWash",Nw("AutoWash"),{default=true})L.toggle(Ew,"🛡 Anti AFK","AntiAfk",Nw("AntiAfk"),{default=true})L.button(Ew,"📍 Merchant",Ub)L.button(Ew,"🚿 Wash Spot",Lb)L.paragraph("🎚 Filter Rarity","Only rarities that are switched on get picked. The knife limit still applies. Species with an unknown rarity are tried once to learn it.")local nw=L.group()for m,x in ipairs(e)do local D=(x:sub(1,1)):upper()..x:sub(2)L.toggle(nw,D,"R_"..x,function(D)f.RarityOn[m]=D L.State["R_"..x]=D end,{default=true})end L.slider("Input Latency","InputLatency",0,.2,.01,.05,"s",function(m)f.InputLatency=m end)task.spawn(function()while U do local m=qb.harvested>0 and math.floor((qb.perfect/qb.harvested)*100+.5)or 0 L.Status:Set({Title=(mb and "🟢 FARMING" or "⚪ IDLE"),Content=string.format("Knife: %s (max %s)\nBag: %d/%d   Harvest: %d   Perfect: %d (%d%%)\nTarget: %s\nLatency: %.3f   Auto Cut: %s   Auto Walk: %s",tostring(qb.tool),ib(vb()),qb.invCount,qb.capacity,qb.harvested,qb.perfect,m,qb.target,f.InputLatency,f.InstantCut and"ON"or"OFF",f.AutoWalk and"ON"or"OFF")})task.wait(.5)end end)v("UI ready. Switch on the Auto Farm toggle to start.")return L
